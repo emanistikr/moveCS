@@ -1,0 +1,35 @@
+{
+    "name": "code",
+    "short_name": "code",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "MoveCS è l’app che ti mostra tutte le fermate e gli orari dei bus di Cosenza in modo semplice e veloce. Consulta la mappa, trova le fermate vicine, guarda le prossime corse e pianifica i tuoi spostamenti in pochi secondi. Tutto ciò che ti serve per muoverti in città, sempre a portata di mano",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
