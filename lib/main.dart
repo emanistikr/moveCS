@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'UI/pages/Home.dart';
+import 'UI/pages/App.dart';
+import 'config/app_theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,6 +11,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: Home());
+    return MaterialApp(
+      title: 'MoveCS',
+      theme: AppTheme.light,
+      debugShowCheckedModeBanner: false,
+      home: const App(),
+    );
   }
 }
