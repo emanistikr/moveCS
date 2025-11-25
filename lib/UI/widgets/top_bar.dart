@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
+import '../../../config/widget_decoration/app_button_decoration.dart';
 
 class TopBar extends StatefulWidget {
   const TopBar({super.key});
@@ -27,18 +28,7 @@ class _TopBarState extends State<TopBar> {
 Widget _searchButton(BuildContext context) => Container(
   width: MediaQuery.of(context).size.width - 115,
   height: 56,
-  decoration: BoxDecoration( //TODO: CREARE nuova classe
-    borderRadius: BorderRadius.circular(50),
-    color: Colors.white, //TODO: Cambiare colore se tema scuro
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.1),
-        spreadRadius: 2,
-        blurRadius: 7,
-        offset: const Offset(0, 3),
-      ),
-    ],
-  ),
+  decoration: AppButtonDecoration.elevatedButtonDecoration,
   alignment: Alignment.centerLeft,
   padding: EdgeInsets.only(left: 14),
   child: Row(
@@ -56,18 +46,7 @@ Widget _searchButton(BuildContext context) => Container(
 Widget _gpsButton() => Container(
   width: 56,
   height: 56,
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(50),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.1),
-        spreadRadius: 2,
-        blurRadius: 5,
-        offset: const Offset(0, 3),
-      ),
-    ],
-  ),
+  decoration: AppButtonDecoration.elevatedButtonDecoration,
   child: Center(
     child: Container(
       height: 30,
