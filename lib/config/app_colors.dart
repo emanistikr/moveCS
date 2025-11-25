@@ -15,5 +15,7 @@ class AppColors {
   static const Color textOnPrimary = Colors.white;
   static const Color textOnSecondary = Color.fromARGB(255, 214, 214, 214);
 
+  static const Color darkElements = Color.fromARGB(255, 63, 63, 63);
+
   static const Color error = Color(0xFFE14D4D);
 }
