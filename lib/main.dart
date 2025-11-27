@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'UI/pages/App.dart';
+import 'UI/pages/home_page.dart';
 import 'config/app_theme.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
       title: 'MoveCS',
       theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
-      home: const App(),
+      home: const HomePage(),
     );
   }
 }
