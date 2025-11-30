@@ -14,6 +14,7 @@ class _TopBarState extends State<TopBar> {
   void _onGpsPressed() {
     // TODO: qui metti la logica per il GPS
     // es: centrare la mappa sulla posizione utente
+
     print('GPS premuto');
   }
 
