@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#Inseriamo AndroidManifest per non rendere publica la chiave
+/android/app/src/main/AndroidManifest.xml
