@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 import '../../../config/widget_decoration/app_button_decoration.dart';
 import '../pages/search_page.dart';
+import '../../controller/controller.dart';
 
 class TopBar extends StatefulWidget {
   const TopBar({super.key});
@@ -12,9 +13,7 @@ class TopBar extends StatefulWidget {
 
 class _TopBarState extends State<TopBar> {
   void _onGpsPressed() {
-    // TODO: qui metti la logica per il GPS
-    // es: centrare la mappa sulla posizione utente
-
+    Controller.getCurrentLocation();
     print('GPS premuto');
   }
 
