@@ -3,7 +3,7 @@ import 'home_page.dart';
 import 'wallet_page.dart';
 import 'notifiche_page.dart';
 import 'profilo_page.dart';
-import '../../config/app_colors.dart';
+import '../../config/widget_decoration/widget_styles.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -35,53 +35,41 @@ class _AppState extends State<App> {
       },
       child: Scaffold(
         body: pages[selectedIndex],
-
-        bottomNavigationBar: NavigationBar(
-          height: 69,
-          selectedIndex: selectedIndex,
-          onDestinationSelected: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          destinations: const [
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.home,
-                size: 29,
-                color: AppColors.secondary,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            boxShadow: [WidgetStyles.shadowUpStyle(context)],
+          ),
+          child: NavigationBar(
+            height: 69,
+            selectedIndex: selectedIndex,
+            onDestinationSelected: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+            destinations: [
+              NavigationDestination(
+                selectedIcon: Icon(Icons.home, size: 29),
+                icon: Icon(Icons.home_outlined, size: 29),
+                label: "Home",
               ),
-              icon: Icon(Icons.home_outlined, size: 29),
-              label: "Home",
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.account_balance_wallet,
-                size: 29,
-                color: AppColors.secondary,
+              NavigationDestination(
+                selectedIcon: Icon(Icons.account_balance_wallet, size: 29),
+                icon: Icon(Icons.account_balance_wallet_outlined, size: 29),
+                label: "Wallet",
               ),
-              icon: Icon(Icons.account_balance_wallet_outlined, size: 29),
-              label: "Wallet",
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.notifications,
-                size: 29,
-                color: AppColors.secondary,
+              NavigationDestination(
+                selectedIcon: Icon(Icons.notifications, size: 29),
+                icon: Icon(Icons.notifications_outlined, size: 29),
+                label: "Notifiche",
               ),
-              icon: Icon(Icons.notifications_outlined, size: 29),
-              label: "Notifiche",
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.person,
-                size: 29,
-                color: AppColors.secondary,
+              NavigationDestination(
+                selectedIcon: Icon(Icons.person, size: 29),
+                icon: Icon(Icons.person_outline, size: 29),
+                label: "Profilo",
               ),
-              icon: Icon(Icons.person_outline, size: 29),
-              label: "Profilo",
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

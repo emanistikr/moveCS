@@ -1,31 +1,98 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
-import 'app_text_styles.dart';
 
 class AppTheme {
   static ThemeData get light {
     return ThemeData(
-      useMaterial3: true,
-      fontFamily: "Poppins",
+      brightness: Brightness.light,
       scaffoldBackgroundColor: AppColors.background,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        background: AppColors.background,
-      ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-      ),
-      textTheme: const TextTheme(
-        titleLarge: AppTextStyles.title,
-        bodyMedium: AppTextStyles.body,
-        bodySmall: AppTextStyles.body2,
-      ),
+
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: Colors.white,
-        indicatorColor: AppColors.primary.withOpacity(.2),
+        backgroundColor: AppColors.surface,
+        indicatorColor: AppColors.primary.withOpacity(.3),
+
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const IconThemeData(
+              color: AppColors.secondary,
+            ); // icona selezionata
+          }
+          return IconThemeData(color: AppColors.textGray);
+        }),
       ),
+
+      colorScheme: ColorScheme(
+        brightness: Brightness.light,
+        primary: AppColors.primary,
+        onPrimary: Colors.white,
+
+        secondary: AppColors.secondary,
+        onSecondary: Colors.white,
+
+        background: AppColors.background,
+        onBackground: AppColors.textDark,
+
+        surface: AppColors.surface,
+        onSurface: AppColors.textDark,
+
+        shadow: Colors.black12,
+
+        error: AppColors.error,
+        onError: Colors.white,
+
+        tertiary: AppColors.textGray,
+      ),
+
+      iconTheme: const IconThemeData(color: AppColors.textDark),
+
+      useMaterial3: true,
+    );
+  }
+
+  static ThemeData get dark {
+    return ThemeData(
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: AppColors.backgroundDark,
+
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: AppColors.surfaceDark,
+        indicatorColor: AppColors.primary.withOpacity(.3),
+
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const IconThemeData(
+              color: AppColors.textLight,
+            ); // icona selezionata
+          }
+          return IconThemeData(color: AppColors.textLightGray);
+        }),
+      ),
+
+      colorScheme: ColorScheme(
+        brightness: Brightness.dark,
+        primary: AppColors.primary,
+        onPrimary: AppColors.secondary,
+
+        secondary: AppColors.secondary,
+        onSecondary: Colors.white,
+
+        background: AppColors.backgroundDark,
+        onBackground: AppColors.textLight,
+
+        surface: AppColors.surfaceDark,
+        onSurface: AppColors.textLight,
+
+        shadow: Colors.white12,
+
+        error: AppColors.error,
+        onError: Colors.white,
+
+        tertiary: AppColors.darkElements,
+      ),
+
+      iconTheme: const IconThemeData(color: AppColors.textLight),
+
+      useMaterial3: true,
     );
   }
 }

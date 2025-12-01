@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/app_colors.dart';
-import '../../../config/widget_decoration/app_button_decoration.dart';
+import '../../../config/widget_decoration/widget_styles.dart';
 import '../pages/search_page.dart';
-import '../../controller/controller.dart';
 
 class TopBar extends StatefulWidget {
   const TopBar({super.key});
@@ -13,7 +11,8 @@ class TopBar extends StatefulWidget {
 
 class _TopBarState extends State<TopBar> {
   void _onGpsPressed() {
-    Controller.getCurrentLocation();
+    // TODO: qui metti la logica per il GPS
+    // es: centrare la mappa sulla posizione utente
     print('GPS premuto');
   }
 
@@ -39,7 +38,7 @@ class _TopBarState extends State<TopBar> {
 
         final slideAnimation = Tween<Offset>(
           //scorrimento dall'alto al basso un poco
-          begin: const Offset(0.0, -0.03),
+          begin: const Offset(0.0, -0.1),
           end: Offset.zero,
         ).animate(curved);
 
@@ -76,7 +75,7 @@ class _TopBarState extends State<TopBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _searchButton(context, _onSearchPressed),
-            _gpsButton(_onGpsPressed),
+            _gpsButton(context, _onGpsPressed),
           ],
         ),
       ),
@@ -96,12 +95,16 @@ Widget _searchButton(BuildContext context, VoidCallback onTap) => Hero(
       child: Container(
         width: MediaQuery.of(context).size.width - 115,
         height: 56,
-        decoration: AppButtonDecoration.elevatedButtonDecoration,
+        decoration: WidgetStyles.elevatedButtonDecoration(context),
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.only(left: 14),
         child: Row(
           children: [
-            const Icon(Icons.search, color: AppColors.darkElements, size: 30),
+            Icon(
+              Icons.search,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: 30,
+            ),
             const SizedBox(width: 15),
             Text(
               'Dove vuoi andare?', //TODO: localizzare
@@ -114,19 +117,22 @@ Widget _searchButton(BuildContext context, VoidCallback onTap) => Hero(
   ),
 );
 
-Widget _gpsButton(VoidCallback onPressed) => InkWell(
+Widget _gpsButton(BuildContext context, VoidCallback onPressed) => InkWell(
   //inkwell per rendere cliccabile
   onTap: onPressed,
   borderRadius: BorderRadius.circular(50),
   child: Container(
     width: 56,
     height: 56,
-    decoration: AppButtonDecoration.elevatedButtonDecoration,
+    decoration: WidgetStyles.elevatedButtonDecoration(context),
     child: Center(
       child: SizedBox(
         height: 30,
         width: 30,
-        child: Icon(Icons.gps_fixed, color: AppColors.darkElements),
+        child: Icon(
+          Icons.gps_fixed,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     ),
   ),
