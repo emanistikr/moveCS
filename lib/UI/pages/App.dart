@@ -15,11 +15,11 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int selectedIndex = 0;
 
-  final List<Widget> pages = const [
+  final List<Widget> pages = [
     HomePage(),
-    WalletPage(),
-    NotifichePage(),
-    ProfiloPage(),
+    const WalletPage(),
+    const NotifichePage(),
+    const ProfiloPage(),
   ];
 
   @override

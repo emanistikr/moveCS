@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
 import '../../../config/widget_decoration/widget_styles.dart';
 import '../pages/search_page.dart';
+import '../../controller/map_controller.dart';
 
 class TopBar extends StatefulWidget {
-  const TopBar({super.key});
+  final MapController mapController;
+
+  const TopBar({super.key, required this.mapController});
 
   @override
   State<TopBar> createState() => _TopBarState();
 }
 
 class _TopBarState extends State<TopBar> {
-  void _onGpsPressed() {
-    // TODO: qui metti la logica per il GPS
-    // es: centrare la mappa sulla posizione utente
-    print('GPS premuto');
+  bool _isLoadingGps = false;
+
+  void _onGpsPressed() async {
+    if (_isLoadingGps) return;
+
+    setState(() {
+      _isLoadingGps = true;
+    });
+
+    if (widget.mapController.isReady) {
+      await widget.mapController.goToUserLocation();
+      setState(() {
+        _isLoadingGps = false;
+      });
+    } else {
+      debugPrint('MapController non pronto');
+    }
+    debugPrint('GPS premuto');
   }
 
   void _onSearchPressed() {
@@ -75,7 +92,7 @@ class _TopBarState extends State<TopBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _searchButton(context, _onSearchPressed),
-            _gpsButton(context, _onGpsPressed),
+            _gpsButton(context, _onGpsPressed, _isLoadingGps),
           ],
         ),
       ),
@@ -117,23 +134,35 @@ Widget _searchButton(BuildContext context, VoidCallback onTap) => Hero(
   ),
 );
 
-Widget _gpsButton(BuildContext context, VoidCallback onPressed) => InkWell(
+Widget _gpsButton(
+  BuildContext context,
+  VoidCallback onPressed,
+  bool isLoading,
+) => InkWell(
   //inkwell per rendere cliccabile
-  onTap: onPressed,
+  onTap: isLoading ? null : onPressed,
   borderRadius: BorderRadius.circular(50),
   child: Container(
     width: 56,
     height: 56,
     decoration: WidgetStyles.elevatedButtonDecoration(context),
     child: Center(
-      child: SizedBox(
-        height: 30,
-        width: 30,
-        child: Icon(
-          Icons.gps_fixed,
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-      ),
+      child: isLoading
+          ? SizedBox(
+              width: 22,
+              height: 22,
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                valueColor: AlwaysStoppedAnimation(
+                  Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            )
+          : Icon(
+              Icons.gps_fixed,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: 25,
+            ),
     ),
   ),
 );

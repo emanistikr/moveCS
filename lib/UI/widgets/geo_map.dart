@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 
 import '../../config/app_constants.dart';
-import '../../controller/geoloc.dart';
+import '../../controller/map_controller.dart';
 
 class GeoMap extends StatefulWidget {
-  const GeoMap({super.key});
+  final MapController mapController;
+  const GeoMap({super.key, required this.mapController});
 
   @override
   GeoMapState createState() => GeoMapState();
@@ -57,6 +57,7 @@ class GeoMapState extends State<GeoMap> {
   //inizializzazione della mappa
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+    widget.mapController.attach(controller);
     _applyMapStyle();
   }
 
@@ -64,24 +65,6 @@ class GeoMapState extends State<GeoMap> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _applyMapStyle();
-  }
-
-  // ---------- GPS ----------
-  Future<void> goToUserLocation() async {
-    if (_mapController == null) return;
-
-    try {
-      Position pos = await GeoLoc.getCurrentLocation();
-
-      final newCamera = CameraPosition(
-        target: LatLng(pos.latitude, pos.longitude),
-        zoom: 15,
-      );
-
-      _mapController!.animateCamera(CameraUpdate.newCameraPosition(newCamera));
-    } catch (e) {
-      debugPrint('Errore nel prendere la posizione: $e');
-    }
   }
 
   @override
