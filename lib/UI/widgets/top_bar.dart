@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../config/widget_decoration/widget_styles.dart';
 import '../pages/search_page.dart';
 import '../../controller/map_controller.dart';
+import '../../controller/app_localization.dart';
 
 class TopBar extends StatefulWidget {
   final MapController mapController;
@@ -124,7 +125,7 @@ Widget _searchButton(BuildContext context, VoidCallback onTap) => Hero(
             ),
             const SizedBox(width: 15),
             Text(
-              'Dove vuoi andare?', //TODO: localizzare
+              AppLocalizations.of(context)?.translate("where?") ?? "",
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],

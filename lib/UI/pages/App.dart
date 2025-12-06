@@ -4,6 +4,7 @@ import 'wallet_page.dart';
 import 'notifiche_page.dart';
 import 'profilo_page.dart';
 import '../../config/widget_decoration/widget_styles.dart';
+import '../../controller/app_localization.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -51,22 +52,22 @@ class _AppState extends State<App> {
               NavigationDestination(
                 selectedIcon: Icon(Icons.home, size: 29),
                 icon: Icon(Icons.home_outlined, size: 29),
-                label: "Home",
+                label: AppLocalizations.of(context)?.translate("home") ?? "",
               ),
               NavigationDestination(
                 selectedIcon: Icon(Icons.account_balance_wallet, size: 29),
                 icon: Icon(Icons.account_balance_wallet_outlined, size: 29),
-                label: "Wallet",
+                label: AppLocalizations.of(context)?.translate("wallet") ?? "",
               ),
               NavigationDestination(
                 selectedIcon: Icon(Icons.notifications, size: 29),
                 icon: Icon(Icons.notifications_outlined, size: 29),
-                label: "Notifiche",
+                label: AppLocalizations.of(context)?.translate("notifications") ?? "",
               ),
               NavigationDestination(
                 selectedIcon: Icon(Icons.person, size: 29),
                 icon: Icon(Icons.person_outline, size: 29),
-                label: "Profilo",
+                label: AppLocalizations.of(context)?.translate("profile") ?? "",
               ),
             ],
           ),

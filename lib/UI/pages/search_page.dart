@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/widget_decoration/widget_styles.dart';
+import '../../controller/app_localization.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -68,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
                           focusNode: _focusNode,
                           autofocus: false,
                           decoration: InputDecoration(
-                            hintText: 'Dove vuoi andare?', //TODO: localizzare
+                            hintText: AppLocalizations.of(context)?.translate("where?") ?? "",
                             border: InputBorder.none,
                             isCollapsed: true,
                           ),
