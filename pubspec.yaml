@@ -9,8 +9,14 @@ environment:
 dependencies:
   google_maps_flutter: ^2.14.0
   geolocator: ^14.0.2
+  localization: ^2.1.1
+  flutter_localizations:
+    sdk: flutter
+
   flutter:
     sdk: flutter
+
+
 
 dev_dependencies:
   flutter_test:
@@ -21,4 +27,6 @@ flutter:
   assets:
       - assets/map_styles/map_style_light.json
       - assets/map_styles/map_style_dark.json
+      - assets/translations/
+
   uses-material-design: true
