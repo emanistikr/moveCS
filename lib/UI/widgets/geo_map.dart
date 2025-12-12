@@ -69,15 +69,40 @@ class GeoMapState extends State<GeoMap> {
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      onMapCreated: _onMapCreated,
-      initialCameraPosition: CameraPosition(target: _center, zoom: 15),
-      myLocationEnabled: true,
-      myLocationButtonEnabled: false,
-      compassEnabled: false,
-      zoomControlsEnabled: false,
-      mapToolbarEnabled: false,
-      mapType: MapType.normal,
+    return FutureBuilder<List<Marker>>(
+      future: MapController.getStopMarkers() ,
+      builder: (context, snapshot) {
+        // 1. Stato: In attesa (Loading)
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        // 2. Stato: Errore
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+        // 3. Stato: Dati Pronti
+        // I dati effettivi (List<T>) sono disponibili in snapshot.data
+        if (snapshot.hasData) {
+          List<Marker> listaEffettiva = snapshot.data! ;
+
+          return GoogleMap(
+            markers: Set<Marker>.of(listaEffettiva),
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(target: _center, zoom: 15),
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            compassEnabled: false,
+            zoomControlsEnabled: false,
+            mapToolbarEnabled: false,
+            mapType: MapType.normal,
+          );
+        }
+
+        // Caso di fallback (es. lista vuota)
+        return const Center(child: Text('Nessun dato trovato.'));
+      },
     );
   }
 }
+
+
