@@ -15,6 +15,7 @@ dependencies:
 
   flutter:
     sdk: flutter
+  firebase_core: ^4.2.1
 
 
 
