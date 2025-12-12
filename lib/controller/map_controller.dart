@@ -1,6 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'geoloc.dart';
+import 'info_stops.dart';
 
 class MapController {
   GoogleMapController? _mapController;
@@ -28,5 +29,9 @@ class MapController {
     } catch (e) {
       print('Error in goToUserLocation: $e');
     }
+  }
+
+  static Future<List<Marker>> getStopMarkers() async {
+    return await infoStops.getStopMarkers();
   }
 }
