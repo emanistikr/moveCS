@@ -3,5 +3,10 @@
   "notifications" : "Notifications",
   "profile": "Profile",
   "home": "Home",
-  "where?": "Where do you want to go?"
+  "where?": "Where do you want to go?",
+  "signIn": "Sign in",
+  "createAccount": "Create Account",
+  "passToCreateAccount": "Don't have an account? Create a new account",
+  "passToLogIn": "Already have an account? Log in",
+  "signUp": "Sign up"
 }

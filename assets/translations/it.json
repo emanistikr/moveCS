@@ -3,5 +3,10 @@
   "notifications" : "Notifiche",
   "profile": "Profilo",
   "home": "Home",
-  "where?": "Dove vuoi andare?"
+  "where?": "Dove vuoi andare?",
+  "signIn": "Accedi",
+  "createAccount": "Crea Account",
+  "passToCreateAccount": "Non hai un account? Crea un nuovo account",
+  "passToLogIn": "Hai già un account? Accedi",
+  "signUp": "Registrazione"
 }
