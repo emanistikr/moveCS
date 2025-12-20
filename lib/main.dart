@@ -7,7 +7,7 @@ import 'controller/app_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'controller/auth_controller.dart';
-import 'UI/pages/profilo_page.dart';
+import 'UI/pages/login_and_registration_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,12 +34,12 @@ class MainApp extends StatelessWidget {
       //Verifica se l'utente ha già effettuato l'accesso e su questo
       //decide cosa svolgere
       home: StreamBuilder(
-        stream: authController().authStateChanges,
+        stream: AuthController().authStateChanges,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return const App();
           } else {
-            return ProfiloPage();
+            return LoginAndRegistrationPage();
           }
         },
       ),
