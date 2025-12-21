@@ -6,8 +6,15 @@ import '../../controller/app_localization.dart';
 
 class TopBar extends StatefulWidget {
   final MapController mapController;
+  final String? selectedStopId;
+  final Future<void> Function(String, Map<String, dynamic>) onMarkerTap;
 
-  const TopBar({super.key, required this.mapController});
+  const TopBar({
+    super.key,
+    required this.mapController,
+    this.selectedStopId,
+    required this.onMarkerTap,
+  });
 
   @override
   State<TopBar> createState() => _TopBarState();
@@ -16,22 +23,28 @@ class TopBar extends StatefulWidget {
 class _TopBarState extends State<TopBar> {
   bool _isLoadingGps = false;
 
-  void _onGpsPressed() async {
+  Future<void> _onGpsPressed() async {
     if (_isLoadingGps) return;
 
-    setState(() {
-      _isLoadingGps = true;
-    });
-
     if (widget.mapController.isReady) {
-      await widget.mapController.goToUserLocation();
       setState(() {
-        _isLoadingGps = false;
+        _isLoadingGps = true;
       });
-    } else {
-      debugPrint('MapController non pronto');
+
+      // 1. Prepariamo i dati SOLO per il Pannello (grafica)
+      final userLocationData = {
+        'id': '0',
+        'code': 'USER_LOC',
+        'nome': "La tua posizione", //TODO: da localizzare o forse no
+      };
+
+      await widget.onMarkerTap('0', userLocationData);
+      if (mounted) {
+        setState(() {
+          _isLoadingGps = false;
+        });
+      }
     }
-    debugPrint('GPS premuto');
   }
 
   void _onSearchPressed() {

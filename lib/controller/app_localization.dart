@@ -1,4 +1,3 @@
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -37,7 +36,7 @@ class _AppLocalizationsDelegate
   @override
   bool isSupported(Locale locale) {
     // lista delle lingue supportate
-    return ['en','it'].contains(locale.languageCode);
+    return ['en', 'it'].contains(locale.languageCode);
   }
 
   @override
@@ -50,4 +49,3 @@ class _AppLocalizationsDelegate
   @override
   bool shouldReload(LocalizationsDelegate<AppLocalizations> old) => false;
 }
-

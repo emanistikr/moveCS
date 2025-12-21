@@ -29,6 +29,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // TODO non funzina, sistemare
       body: SafeArea(
         child: Column(
           children: [
@@ -69,7 +70,11 @@ class _SearchPageState extends State<SearchPage> {
                           focusNode: _focusNode,
                           autofocus: false,
                           decoration: InputDecoration(
-                            hintText: AppLocalizations.of(context)?.translate("where?") ?? "",
+                            hintText:
+                                AppLocalizations.of(
+                                  context,
+                                )?.translate("where?") ??
+                                "",
                             border: InputBorder.none,
                             isCollapsed: true,
                           ),

@@ -23,7 +23,9 @@ class _LoginAndRegistrationPageState extends State<LoginAndRegistrationPage> {
         _emailController.text,
         _passwordController.text,
       );
-    } on FirebaseAuthException catch (error) {}
+    } on FirebaseAuthException catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   Future<void> createUser() async {
@@ -32,7 +34,9 @@ class _LoginAndRegistrationPageState extends State<LoginAndRegistrationPage> {
         _emailController.text,
         _passwordController.text,
       );
-    } on FirebaseAuthException catch (error) {}
+    } on FirebaseAuthException catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   @override

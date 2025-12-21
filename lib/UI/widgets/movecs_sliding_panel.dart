@@ -2,16 +2,46 @@ import 'package:flutter/material.dart';
 import '../../config/widget_decoration/widget_styles.dart';
 
 class MovecsSlidingPanel extends StatefulWidget {
-  const MovecsSlidingPanel({super.key});
+  final Map<String, dynamic>? selectedStopData;
+
+  const MovecsSlidingPanel({super.key, this.selectedStopData});
 
   @override
   State<MovecsSlidingPanel> createState() => _MovecsSlidingPanelState();
 }
 
 class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
+  //Controller per il pannello scorrevole
+  final DraggableScrollableController _panelController =
+      DraggableScrollableController();
+
+  @override
+  void dispose() {
+    _panelController.dispose(); // Pulizia del controller
+    super.dispose();
+  }
+
+  // Rileva cambiamenti nel widget tipo quando si seleziona una fermata
+  @override
+  void didUpdateWidget(covariant MovecsSlidingPanel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedStopData?['code'] !=
+            oldWidget.selectedStopData?['code'] &&
+        widget.selectedStopData != null) {
+      if (_panelController.isAttached) {
+        _panelController.animateTo(
+          0.25,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
+      controller: _panelController,
       initialChildSize: 0.50, // <- più alto per includere lo spazio trasparente
       minChildSize: 0.15,
       maxChildSize: 0.85,
@@ -50,7 +80,15 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
                 child: ListView(
                   controller: scrollController,
                   padding: const EdgeInsets.all(16),
-                  children: const [],
+                  children: [
+                    Text(
+                      'Dettagli Fermata: ${widget.selectedStopData}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
