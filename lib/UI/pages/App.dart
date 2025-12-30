@@ -16,7 +16,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int selectedIndex = 0;
 
-  final List<Widget> pages = [
+  final List<Widget> _pages = [
     HomePage(),
     const WalletPage(),
     const NotifichePage(),
@@ -35,7 +35,7 @@ class _AppState extends State<App> {
         }
       },
       child: Scaffold(
-        body: pages[selectedIndex],
+        body: IndexedStack(index: selectedIndex, children: _pages),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             boxShadow: [WidgetStyles.shadowUpStyle(context)],
@@ -50,23 +50,31 @@ class _AppState extends State<App> {
             },
             destinations: [
               NavigationDestination(
-                selectedIcon: Icon(Icons.home, size: 29),
-                icon: Icon(Icons.home_outlined, size: 29),
+                selectedIcon: const Icon(Icons.home, size: 29),
+                icon: const Icon(Icons.home_outlined, size: 29),
                 label: AppLocalizations.of(context)?.translate("home") ?? "",
               ),
               NavigationDestination(
-                selectedIcon: Icon(Icons.account_balance_wallet, size: 29),
-                icon: Icon(Icons.account_balance_wallet_outlined, size: 29),
+                selectedIcon: const Icon(
+                  Icons.account_balance_wallet,
+                  size: 29,
+                ),
+                icon: const Icon(
+                  Icons.account_balance_wallet_outlined,
+                  size: 29,
+                ),
                 label: AppLocalizations.of(context)?.translate("wallet") ?? "",
               ),
               NavigationDestination(
-                selectedIcon: Icon(Icons.notifications, size: 29),
-                icon: Icon(Icons.notifications_outlined, size: 29),
-                label: AppLocalizations.of(context)?.translate("notifications") ?? "",
+                selectedIcon: const Icon(Icons.notifications, size: 29),
+                icon: const Icon(Icons.notifications_outlined, size: 29),
+                label:
+                    AppLocalizations.of(context)?.translate("notifications") ??
+                    "",
               ),
               NavigationDestination(
-                selectedIcon: Icon(Icons.person, size: 29),
-                icon: Icon(Icons.person_outline, size: 29),
+                selectedIcon: const Icon(Icons.person, size: 29),
+                icon: const Icon(Icons.person_outline, size: 29),
                 label: AppLocalizations.of(context)?.translate("profile") ?? "",
               ),
             ],

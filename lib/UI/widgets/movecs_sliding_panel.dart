@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../config/widget_decoration/widget_styles.dart';
+import 'panels/main_panel.dart';
+import 'panels/stop_info_panel.dart';
+import 'panels/near_stops_panel.dart';
 
 class MovecsSlidingPanel extends StatefulWidget {
   final Map<String, dynamic>? selectedStopData;
@@ -26,11 +29,10 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
   void didUpdateWidget(covariant MovecsSlidingPanel oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.selectedStopData?['code'] !=
-            oldWidget.selectedStopData?['code'] &&
-        widget.selectedStopData != null) {
+        oldWidget.selectedStopData?['code']) {
       if (_panelController.isAttached) {
         _panelController.animateTo(
-          0.25,
+          widget.selectedStopData?['code'] == null ? 0.50 : 0.25,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
@@ -40,14 +42,15 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
 
   @override
   Widget build(BuildContext context) {
+    double snapLow = (widget.selectedStopData?['code'] != null) ? 0.25 : 0.15;
     return DraggableScrollableSheet(
       controller: _panelController,
       initialChildSize: 0.50, // <- più alto per includere lo spazio trasparente
-      minChildSize: 0.15,
+      minChildSize: snapLow,
       maxChildSize: 0.85,
 
       snap: true,
-      snapSizes: const [0.15, 0.50, 0.85],
+      snapSizes: [snapLow, 0.50, 0.85],
 
       builder: (context, scrollController) {
         return Column(
@@ -81,8 +84,15 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
                   controller: scrollController,
                   padding: const EdgeInsets.all(16),
                   children: [
+                    if (widget.selectedStopData?['code'] == null)
+                      const MainPanel()
+                    else if (widget.selectedStopData?['code'] == 'USER_LOC')
+                      const NearStopsPanel()
+                    else
+                      const StopInfoPanel(),
+
                     Text(
-                      'Dettagli Fermata: ${widget.selectedStopData}',
+                      '${widget.selectedStopData}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../config/app_text_styles.dart';
 import '../../controller/auth_controller.dart';
 
 class ProfiloPage extends StatelessWidget {
   const ProfiloPage({super.key});
 
-  Future<void> signOut() async{
+  Future<void> signOut() async {
     await AuthController().signOut();
   }
 
@@ -16,10 +15,18 @@ class ProfiloPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Welcome to Profilo Page!', style: AppTextStyles.title),
-            FloatingActionButton(onPressed:(){signOut();}, child: Icon(Icons.logout),)
+            Text(
+              'Welcome to Profilo Page!',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                signOut();
+              },
+              child: Icon(Icons.logout),
+            ),
           ],
-        )
+        ),
       ),
     );
   }

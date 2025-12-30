@@ -34,28 +34,38 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  //TODO: quando premo pulsante indietro o tocco un pulsante apposito, resetta la fermata selezionata
-  /* void _clearSelectedStop() {
+  void _clearSelectedStop() {
     setState(() {
       _selectedStopId = null;
       _selectedStopData = null;
     });
-  } */
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false, // TODO non funzina, sistemare
-      body: Stack(
-        children: [
-          GeoMap(
-            mapController: _mapController,
-            selectedStopId: _selectedStopId,
-            onMarkerTap: _onStopTapped,
-          ),
-          MovecsSlidingPanel(selectedStopData: _selectedStopData),
-          TopBar(mapController: _mapController, onMarkerTap: _onStopTapped),
-        ],
+    return PopScope(
+      //se c'è una fermata selezionat, il tasto indietro la chiude invece di uscire
+      canPop: _selectedStopId == null,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        if (_selectedStopId != null) {
+          _clearSelectedStop();
+        }
+      },
+
+      child: Scaffold(
+        resizeToAvoidBottomInset: false, // TODO non funzina, sistemare
+        body: Stack(
+          children: [
+            GeoMap(
+              mapController: _mapController,
+              selectedStopId: _selectedStopId,
+              onMarkerTap: _onStopTapped,
+            ),
+            MovecsSlidingPanel(selectedStopData: _selectedStopData),
+            TopBar(mapController: _mapController, onMarkerTap: _onStopTapped),
+          ],
+        ),
       ),
     );
   }

@@ -8,5 +8,7 @@
   "createAccount": "Crea Account",
   "passToCreateAccount": "Non hai un account? Crea un nuovo account",
   "passToLogIn": "Hai già un account? Accedi",
-  "signUp": "Registrazione"
+  "signUp": "Registrazione",
+  "StartNavigating": "Comincia a navigare",
+  "NearStops": "Opzioni vicine a me"
 }

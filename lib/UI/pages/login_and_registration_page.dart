@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../config/app_text_styles.dart';
 import '../../controller/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../controller/app_localization.dart';
@@ -48,17 +47,20 @@ class _LoginAndRegistrationPageState extends State<LoginAndRegistrationPage> {
               ? 'Login'
               : AppLocalizations.of(context)?.translate("signUp") ?? "",
         ),
-        titleTextStyle: AppTextStyles.title,
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
       ),
       body: Column(
         children: [
           Column(
             children: [
-              const SizedBox(height: 60),
+              SizedBox(height: 60),
               TextField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  label: Text('Email', style: AppTextStyles.smallTitle),
+                decoration: InputDecoration(
+                  label: Text(
+                    'Email',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                 ),
               ),
               Row(
@@ -67,10 +69,10 @@ class _LoginAndRegistrationPageState extends State<LoginAndRegistrationPage> {
                     child: TextField(
                       controller: _passwordController,
                       obscureText: !_passwordVisible,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         label: Text(
                           'Password',
-                          style: AppTextStyles.smallTitle,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                     ),
@@ -105,7 +107,7 @@ class _LoginAndRegistrationPageState extends State<LoginAndRegistrationPage> {
                                   context,
                                 )?.translate("createAccount") ??
                                 "",
-                      style: AppTextStyles.smallTitle,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                   TextButton(
