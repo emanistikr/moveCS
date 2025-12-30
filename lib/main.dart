@@ -7,7 +7,8 @@ import 'controller/app_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'controller/auth_controller.dart';
-import 'UI/pages/login_and_registration_page.dart';
+//import 'UI/pages/login_and_registration_page.dart';
+import 'UI/pages/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +40,7 @@ class MainApp extends StatelessWidget {
           if (snapshot.hasData) {
             return const App();
           } else {
-            return LoginAndRegistrationPage();
+            return LoginPage();
           }
         },
       ),

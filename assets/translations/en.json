@@ -10,5 +10,7 @@
   "passToLogIn": "Already have an account? Log in",
   "signUp": "Sign up",
   "StartNavigating": "Start navigating",
-  "NearStops": "Stops nearby"
+  "NearStops": "Stops nearby",
+  "Name": "Name",
+  "Surname": "Surname"
 }

@@ -10,5 +10,7 @@
   "passToLogIn": "Hai già un account? Accedi",
   "signUp": "Registrazione",
   "StartNavigating": "Comincia a navigare",
-  "NearStops": "Opzioni vicine a me"
+  "NearStops": "Opzioni vicine a me",
+  "Name": "Nome",
+  "Surname": "Cognome"
 }
