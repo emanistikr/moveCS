@@ -92,12 +92,24 @@ class _ProfiloPageState extends State<ProfiloPage> {
             ),
           ),
           const Spacer(),
-          FloatingActionButton(
-              onPressed:(){signOut();},
-              backgroundColor: Theme.of(context).primaryColor,
-              child: Icon(Icons.logout, color: Theme.of(context).secondaryHeaderColor),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FloatingActionButton(
+                onPressed:(){signOut();},
+                backgroundColor: Theme.of(context).primaryColor,
+                child: Icon(Icons.logout, color: Theme.of(context).secondaryHeaderColor),
 
+              ),
+              FloatingActionButton(
+                onPressed:(){controller.deleteAccount();},
+                backgroundColor: Theme.of(context).primaryColor,
+                child: Icon(Icons.delete, color: Theme.of(context).secondaryHeaderColor),
+
+              ),
+            ],
           ),
+
           const SizedBox(height: 50),
         ],
       ),
