@@ -24,4 +24,14 @@ class WidgetStyles {
       boxShadow: [shadowDownStyle(context)],
     );
   }
+
+  static BoxDecoration cardDecoration(BuildContext context) {
+    return BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        )
+    );
+  }
 }
