@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/widget_decoration/widget_styles.dart';
+import '../../controller/app_localization.dart';
+import '../../controller/auth_controller.dart';
 
 class ProfiloPage extends StatefulWidget {
   const ProfiloPage({super.key});
@@ -9,8 +11,30 @@ class ProfiloPage extends StatefulWidget {
 }
 
 class _ProfiloPageState extends State<ProfiloPage> {
-  String nomeUtente = "Enrico Pasquale Pratticò"; //Todo: prendere dal profilo utente
+  AuthController controller = AuthController();
+  String nomeUtente = "Utente";
   String urlImmagine = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80'; //Todo: prendere dal profilo utente
+
+  Future<void> signOut() async{
+    await AuthController().signOut();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    recuperaDati();
+  }
+
+  Future<void> recuperaDati() async {
+    // Ora puoi usare await correttamente
+    String? verify = await controller.getUserName(await controller.getUid());
+
+    setState(() {
+      nomeUtente = verify ?? "Utente"; // Aggiorna la variabile e rifà il build
+    });
+    setState(() {}); // Aggiorna lo stato per riflettere il cambiamento
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +49,7 @@ class _ProfiloPageState extends State<ProfiloPage> {
             child: Column(
               children: [
                 Text(
-                  'Il mio profilo', //TODO: localizzare
+                  AppLocalizations.of(context)?.translate("profilo_text") ?? "My Profile",
                   style: TextStyle(
                       color: Theme.of(context).secondaryHeaderColor, // Colore testo adattato al tema
                       fontSize: 22,
@@ -68,6 +92,13 @@ class _ProfiloPageState extends State<ProfiloPage> {
             ),
           ),
           const Spacer(),
+          FloatingActionButton(
+              onPressed:(){signOut();},
+              backgroundColor: Theme.of(context).primaryColor,
+              child: Icon(Icons.logout, color: Theme.of(context).secondaryHeaderColor),
+
+          ),
+          const SizedBox(height: 50),
         ],
       ),
     );

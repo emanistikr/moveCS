@@ -26,6 +26,14 @@ class AuthController {
     });
   }
 
+  Future<String?> getUserName(String? uid) async {
+    if(uid ==null) {
+      return null;
+    }
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    return doc['name']+' '+doc['surname'];
+  }
+
   Future<String?> getUid() async {
     return await _firebaseAuth.currentUser?.uid;
   }
