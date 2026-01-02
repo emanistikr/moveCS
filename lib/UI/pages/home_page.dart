@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
       try {
         _mapController.goToPosition(LatLng(data['lat'], data['lng']));
       } catch (e) {
+        _clearSelectedStop();
         debugPrint("$e");
       }
     }
@@ -54,12 +55,13 @@ class _HomePageState extends State<HomePage> {
       },
 
       child: Scaffold(
-        resizeToAvoidBottomInset: false, // TODO non funzina, sistemare
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             GeoMap(
               mapController: _mapController,
               selectedStopId: _selectedStopId,
+              selectedStopData: _selectedStopData,
               onMarkerTap: _onStopTapped,
             ),
             MovecsSlidingPanel(selectedStopData: _selectedStopData),

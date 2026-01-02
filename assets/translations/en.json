@@ -10,8 +10,14 @@
   "passToLogIn": "Already have an account? Log in",
   "signUp": "Sign up",
   "StartNavigating": "Start navigating",
-  "NearStops": "Stops nearby",
+  "NearStops": "Stops near",
   "Name": "Name",
   "Surname": "Surname",
-  "profilo_text": "My profile"
+  "profilo_text": "My profile",
+  "Places": "Places",
+  "Stops": "Stops",
+  "Lines": "Lines",
+  "UnknownStop": "Unknown stop",
+  "NoDepartures": "No upcoming departures",
+  "Error": "An error has occurred"
 }

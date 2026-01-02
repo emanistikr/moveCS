@@ -34,7 +34,7 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
         _panelController.animateTo(
           widget.selectedStopData?['code'] == null ? 0.50 : 0.25,
           duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
+          curve: Curves.easeOutQuart,
         );
       }
     }

@@ -5,13 +5,23 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class infoStops {
   static BitmapDescriptor? _stopIcon;
   static BitmapDescriptor? _selectedStopIcon;
+  static BitmapDescriptor? _selectedLocationIcon;
   static List<QueryDocumentSnapshot>? _cachedData;
+
+  static List<QueryDocumentSnapshot> getCachedMarkers() {
+    return _cachedData ?? [];
+  }
 
   //Metodo per otenere i marker di tutte le fermate
   static Future<List<Marker>> getStopMarkers({
     String? selectedStopId,
+    Map<String, dynamic>? selectedStopData,
+
     Function(String id, Map<String, dynamic> data)? onMarkerTap,
   }) async {
+    debugPrint(
+      '---------------------------------------------------------------------------infoStops.getStopMarkers called with selectedStopId: $selectedStopId',
+    );
     //scarico le icone solo una volta
     _stopIcon ??= await BitmapDescriptor.fromAssetImage(
       const ImageConfiguration(size: Size(48, 48)),
@@ -20,6 +30,10 @@ class infoStops {
     _selectedStopIcon ??= await BitmapDescriptor.fromAssetImage(
       const ImageConfiguration(size: Size(48, 48)),
       'assets/icons/selected_stop_icon.png',
+    );
+    _selectedLocationIcon ??= await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(size: Size(48, 48)),
+      'assets/icons/selected_location_icon.png',
     );
 
     //scarico i dati solo una volta
@@ -39,6 +53,7 @@ class infoStops {
         markerId: MarkerId(id),
         position: position,
         icon: selectedStopId == id ? _selectedStopIcon! : _stopIcon!,
+        zIndexInt: selectedStopId == id ? 1 : 0,
         onTap: () {
           if (onMarkerTap != null) {
             onMarkerTap(id, data);
@@ -47,6 +62,24 @@ class infoStops {
         },
       );
       markers.add(marker);
+    }
+
+    if (selectedStopId == '1' && selectedStopData != null) {
+      debugPrint(
+        '---------------------------------------Aggiungo marker per posizione selezionata: $selectedStopData',
+      );
+      // Aggiungo marker per la posizione ottenuta dalla ricerca tramite api places
+      double selectedStopLat = selectedStopData['lat'];
+      double selectedStopLng = selectedStopData['lng'];
+      LatLng selectedStopPosition = LatLng(selectedStopLat, selectedStopLng);
+
+      Marker placeMarker = Marker(
+        markerId: const MarkerId('1'),
+        position: selectedStopPosition,
+        icon: _selectedLocationIcon!,
+        zIndexInt: 2,
+      );
+      markers.add(placeMarker);
     }
 
     return markers;

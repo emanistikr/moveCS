@@ -10,8 +10,14 @@
   "passToLogIn": "Hai già un account? Accedi",
   "signUp": "Registrazione",
   "StartNavigating": "Comincia a navigare",
-  "NearStops": "Opzioni vicine a me",
+  "NearStops": "Vicino a",
   "Name": "Nome",
   "Surname": "Cognome",
-  "profilo_text": "Il mio profilo"
+  "profilo_text": "Il mio profilo",
+  "Places": "Luoghi",
+  "Stops": "Fermate",
+  "Lines": "Linee",
+  "UnknownStop": "Fermata sconosciuta",
+  "NoDepartures": "Nessuna partenza imminente",
+  "Error": "Si è verificato un errore"
 }

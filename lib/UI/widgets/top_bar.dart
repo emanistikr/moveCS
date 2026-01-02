@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../config/widget_decoration/widget_styles.dart';
 import '../pages/search_page.dart';
+import '../../models/search_result.dart';
 import '../../controller/map_controller.dart';
 import '../../controller/app_localization.dart';
 
@@ -31,11 +32,11 @@ class _TopBarState extends State<TopBar> {
         _isLoadingGps = true;
       });
 
-      // 1. Prepariamo i dati SOLO per il Pannello (grafica)
+      // 1. Prepariamo i dati che servono per il Pannello (grafica)
       final userLocationData = {
         'id': '0',
         'code': 'USER_LOC',
-        'nome': "La tua posizione", //TODO: da localizzare o forse no
+        'nome': "La tua posizione",
       };
 
       await widget.onMarkerTap('0', userLocationData);
@@ -47,14 +48,17 @@ class _TopBarState extends State<TopBar> {
     }
   }
 
-  void _onSearchPressed() {
-    //logica per aprire la pagina di ricerca
-    Navigator.of(context).push(_searchRoute());
+  Future<void> _onSearchPressed() async {
+    //logica per aprire la pagina di ricerca e gestire il risultato
+    final searchPageResult = await Navigator.of(context).push(_searchRoute());
+    if (searchPageResult != null && searchPageResult is SearchResult) {
+      onSearchResultSelected(searchPageResult);
+    }
   }
 
   Route _searchRoute() {
     //animazione per aprire la pagina di ricerca
-    return PageRouteBuilder<void>(
+    return PageRouteBuilder(
       transitionDuration: const Duration(milliseconds: 260),
       reverseTransitionDuration: const Duration(milliseconds: 200),
       pageBuilder: (context, animation, secondaryAnimation) =>
@@ -111,6 +115,29 @@ class _TopBarState extends State<TopBar> {
         ),
       ),
     );
+  }
+
+  Future<void> onSearchResultSelected(SearchResult searchPageResult) async {
+    if (searchPageResult.data == null) {
+      double? lat = double.tryParse(searchPageResult.lat ?? "");
+      double? lng = double.tryParse(searchPageResult.lng ?? "");
+
+      final selectedPositionData = {
+        'id': '1',
+        'code': searchPageResult.id,
+        'name': searchPageResult.title,
+        'lat': lat,
+        'lng': lng,
+      };
+      await widget.onMarkerTap('1', selectedPositionData);
+      if (mounted) {
+        setState(() {
+          _isLoadingGps = false;
+        });
+      }
+    } else {
+      await widget.onMarkerTap(searchPageResult.id, searchPageResult.data!);
+    }
   }
 }
 

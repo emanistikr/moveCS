@@ -35,6 +35,7 @@ class _AppState extends State<App> {
         }
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: IndexedStack(index: selectedIndex, children: _pages),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(

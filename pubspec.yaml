@@ -30,6 +30,7 @@ flutter:
   assets:
       - assets/icons/stop_icon.png
       - assets/icons/selected_stop_icon.png
+      - assets/icons/selected_location_icon.png
       - assets/map_styles/map_style_light.json
       - assets/map_styles/map_style_dark.json
       - assets/translations/

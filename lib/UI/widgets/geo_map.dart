@@ -9,12 +9,14 @@ import '../../controller/info_stops.dart';
 class GeoMap extends StatefulWidget {
   final MapController mapController;
   final String? selectedStopId;
+  final Map<String, dynamic>? selectedStopData;
   final Function(String, Map<String, dynamic>) onMarkerTap;
 
   const GeoMap({
     super.key,
     required this.mapController,
     this.selectedStopId,
+    this.selectedStopData,
     required this.onMarkerTap,
   });
 
@@ -42,7 +44,7 @@ class GeoMapState extends State<GeoMap> {
   @override
   void didUpdateWidget(covariant GeoMap oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedStopId != widget.selectedStopId) {
+    if (oldWidget.selectedStopData != widget.selectedStopData) {
       _loadData();
     }
   }
@@ -53,6 +55,9 @@ class GeoMapState extends State<GeoMap> {
       List<Marker> markersList = await infoStops.getStopMarkers(
         selectedStopId: widget.selectedStopId,
         onMarkerTap: widget.onMarkerTap,
+        selectedStopData: (widget.selectedStopId == '1')
+            ? widget.selectedStopData
+            : null,
       );
 
       if (mounted) {
