@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart'; // Assicurati che questo import sia corretto per il tuo progetto
-
-class AppFonts {
-  static const String defaultFont = 'OpenSans';
-  static const String pixelFont = 'PressStart2p';
-}
+import 'app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppFontSizes {
   static const double extraLarge = 25.0;
@@ -15,61 +11,60 @@ class AppFontSizes {
 }
 
 class AppTheme {
-  // Questo metodo costruisce lo stile del testo dinamicamente in base ai colori passati dal contesto del tema
+  //costruisce lo stile del testo
   static TextTheme _buildTextTheme(Color primaryColor, Color secondaryColor) {
     return TextTheme(
-      displayLarge: TextStyle(
-        fontFamily: AppFonts.defaultFont,
+      displayLarge: GoogleFonts.openSans(
         fontSize: AppFontSizes.extraLarge,
         fontWeight: FontWeight.w600,
         color: primaryColor,
       ),
 
-      titleLarge: TextStyle(
-        fontFamily: AppFonts.defaultFont,
+      titleLarge: GoogleFonts.openSans(
         fontSize: AppFontSizes.extraLarge,
         fontWeight: FontWeight.w500,
         color: secondaryColor,
       ),
 
-      titleMedium: TextStyle(
-        fontFamily: AppFonts.defaultFont,
+      titleMedium: GoogleFonts.openSans(
         fontSize: AppFontSizes.large,
         fontWeight: FontWeight.w500,
         color: primaryColor,
       ),
 
-      bodyLarge: TextStyle(
-        fontFamily: AppFonts.defaultFont,
+      bodyLarge: GoogleFonts.openSans(
         fontSize: AppFontSizes.small,
         fontWeight: FontWeight.w400,
         color: primaryColor,
       ),
 
-      bodyMedium: TextStyle(
-        fontFamily: AppFonts.defaultFont,
+      bodyMedium: GoogleFonts.openSans(
         fontSize: AppFontSizes.medium,
         fontWeight: FontWeight.w300,
         color: secondaryColor,
       ),
 
-      labelSmall: TextStyle(
-        fontFamily: AppFonts.defaultFont,
+      labelMedium: GoogleFonts.openSans(
+        fontSize: AppFontSizes.small,
+        fontWeight: FontWeight.w400,
+        color: primaryColor,
+      ),
+
+      labelSmall: GoogleFonts.openSans(
         fontSize: AppFontSizes.extraSmall,
         fontWeight: FontWeight.w400,
         color: secondaryColor,
       ),
 
-      displaySmall: const TextStyle(
-        fontFamily: AppFonts.pixelFont,
-        fontWeight: FontWeight.w400,
-        fontSize: 35,
+      displaySmall: GoogleFonts.pixelifySans(
+        fontWeight: FontWeight.w600,
+        fontSize: AppFontSizes.large,
         color: Colors.white,
       ),
     );
   }
 
-  //TEMA CHIARO (Light Mode)
+  // TEMA CHIARO (Light Mode)
   static ThemeData get light {
     return ThemeData(
       brightness: Brightness.light,
@@ -109,7 +104,7 @@ class AppTheme {
     );
   }
 
-  //TEMA SCURO (Dark Mode)
+  // TEMA SCURO (Dark Mode)
   static ThemeData get dark {
     return ThemeData(
       brightness: Brightness.dark,
