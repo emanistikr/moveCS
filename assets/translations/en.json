@@ -19,5 +19,6 @@
   "Lines": "Lines",
   "UnknownStop": "Unknown stop",
   "NoDepartures": "No upcoming departures",
+  "NoStops": "No stops found",
   "Error": "An error has occurred"
 }

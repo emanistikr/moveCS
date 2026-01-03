@@ -19,5 +19,6 @@
   "Lines": "Linee",
   "UnknownStop": "Fermata sconosciuta",
   "NoDepartures": "Nessuna partenza imminente",
+  "NoStops": "Nessuna fermata trovata",
   "Error": "Si è verificato un errore"
 }

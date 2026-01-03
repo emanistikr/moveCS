@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class infoStops {
+class InfoStops {
   static BitmapDescriptor? _stopIcon;
   static BitmapDescriptor? _selectedStopIcon;
   static BitmapDescriptor? _selectedLocationIcon;
@@ -12,6 +12,10 @@ class infoStops {
     return _cachedData ?? [];
   }
 
+  static Future<void> loadStopsData() async {
+    await getStopMarkers();
+  }
+
   //Metodo per otenere i marker di tutte le fermate
   static Future<List<Marker>> getStopMarkers({
     String? selectedStopId,
@@ -19,9 +23,6 @@ class infoStops {
 
     Function(String id, Map<String, dynamic> data)? onMarkerTap,
   }) async {
-    debugPrint(
-      '---------------------------------------------------------------------------infoStops.getStopMarkers called with selectedStopId: $selectedStopId',
-    );
     //scarico le icone solo una volta
     _stopIcon ??= await BitmapDescriptor.fromAssetImage(
       const ImageConfiguration(size: Size(48, 48)),
@@ -65,9 +66,6 @@ class infoStops {
     }
 
     if (selectedStopId == '1' && selectedStopData != null) {
-      debugPrint(
-        '---------------------------------------Aggiungo marker per posizione selezionata: $selectedStopData',
-      );
       // Aggiungo marker per la posizione ottenuta dalla ricerca tramite api places
       double selectedStopLat = selectedStopData['lat'];
       double selectedStopLng = selectedStopData['lng'];

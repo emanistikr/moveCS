@@ -52,7 +52,7 @@ class GeoMapState extends State<GeoMap> {
   // Funzione unica per caricare tutto all'avvio
   Future<void> _loadData() async {
     try {
-      List<Marker> markersList = await infoStops.getStopMarkers(
+      List<Marker> markersList = await InfoStops.getStopMarkers(
         selectedStopId: widget.selectedStopId,
         onMarkerTap: widget.onMarkerTap,
         selectedStopData: (widget.selectedStopId == '1')

@@ -21,6 +21,10 @@ class InfoLines {
     return _cachedLines!;
   }
 
+  static Future<void> loadLinesData() async {
+    await getBusLines();
+  }
+
   // Metodo getter per i dettagli di una singola linea tramite ID
   static Map<String, dynamic>? getLineDetails(String lineId) {
     if (_cachedLines == null) return null;

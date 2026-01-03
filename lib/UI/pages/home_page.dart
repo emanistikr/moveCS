@@ -4,6 +4,8 @@ import '../widgets/movecs_sliding_panel.dart';
 import '../widgets/top_bar.dart';
 import '../widgets/geo_map.dart';
 import '../../controller/map_controller.dart';
+import '../../controller/info_lines.dart';
+import '../../controller/info_stops.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -13,6 +15,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    InfoLines.loadLinesData();
+    InfoStops.loadStopsData();
+  }
+
   final MapController _mapController = MapController();
 
   Map<String, dynamic>? _selectedStopData;

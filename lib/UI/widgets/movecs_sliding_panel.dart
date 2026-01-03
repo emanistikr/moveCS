@@ -30,19 +30,26 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
     super.didUpdateWidget(oldWidget);
     if (widget.selectedStopData?['code'] !=
         oldWidget.selectedStopData?['code']) {
-      if (_panelController.isAttached) {
-        _panelController.animateTo(
-          widget.selectedStopData?['code'] == null ? 0.50 : 0.25,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutQuart,
-        );
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_panelController.isAttached) {
+          // Definisci dove deve andare
+          double targetPos = (widget.selectedStopData?['code'] == null)
+              ? 0.50
+              : 0.22;
+
+          _panelController.animateTo(
+            targetPos,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOutQuart,
+          );
+        }
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double snapLow = (widget.selectedStopData?['code'] != null) ? 0.25 : 0.15;
+    double snapLow = (widget.selectedStopData?['code'] != null) ? 0.22 : 0.15;
     return DraggableScrollableSheet(
       controller: _panelController,
       initialChildSize: 0.50, // <- più alto per includere lo spazio trasparente
@@ -80,26 +87,19 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
                   ),
                   boxShadow: [WidgetStyles.shadowUpStyle(context)],
                 ),
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(16),
-                  children: [
-                    if (widget.selectedStopData?['code'] == null)
-                      const MainPanel()
-                    else if (widget.selectedStopData?['code'] == 'USER_LOC')
-                      const NearStopsPanel()
-                    else
-                      const StopInfoPanel(),
-
-                    Text(
-                      '${widget.selectedStopData}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                clipBehavior: Clip.hardEdge,
+                child: (widget.selectedStopData?['code'] == null)
+                    ? MainPanel(scrollController: scrollController)
+                    : (widget.selectedStopData?['id'] == '0' ||
+                          widget.selectedStopData?['id'] == '1')
+                    ? NearStopsPanel(
+                        data: widget.selectedStopData,
+                        scrollController: scrollController,
+                      )
+                    : StopInfoPanel(
+                        data: widget.selectedStopData,
+                        scrollController: scrollController,
                       ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],

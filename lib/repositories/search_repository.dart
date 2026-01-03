@@ -92,7 +92,7 @@ class SearchRepository {
 
   // RICERCA FERMATE (cached in infoStops)
   List<SearchResult> _searchStops(String query) {
-    final docs = infoStops.getCachedMarkers();
+    final docs = InfoStops.getCachedMarkers();
 
     return docs
         .where((doc) {
