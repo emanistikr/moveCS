@@ -6,8 +6,13 @@ import 'panels/near_stops_panel.dart';
 
 class MovecsSlidingPanel extends StatefulWidget {
   final Map<String, dynamic>? selectedStopData;
+  final Function(String, Map<String, dynamic>)? onStopSelected;
 
-  const MovecsSlidingPanel({super.key, this.selectedStopData});
+  const MovecsSlidingPanel({
+    super.key,
+    this.selectedStopData,
+    this.onStopSelected,
+  });
 
   @override
   State<MovecsSlidingPanel> createState() => _MovecsSlidingPanelState();
@@ -35,6 +40,9 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
           // Definisci dove deve andare
           double targetPos = (widget.selectedStopData?['code'] == null)
               ? 0.50
+              : (widget.selectedStopData?['id'] == '0' ||
+                    widget.selectedStopData?['id'] == '1')
+              ? 0.27
               : 0.22;
 
           _panelController.animateTo(
@@ -95,6 +103,14 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
                     ? NearStopsPanel(
                         data: widget.selectedStopData,
                         scrollController: scrollController,
+                        onStopClick: (stopData) {
+                          if (widget.onStopSelected != null) {
+                            widget.onStopSelected!(
+                              stopData['code'].toString(),
+                              stopData,
+                            );
+                          }
+                        },
                       )
                     : StopInfoPanel(
                         data: widget.selectedStopData,

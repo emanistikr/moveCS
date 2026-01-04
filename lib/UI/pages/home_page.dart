@@ -73,7 +73,10 @@ class _HomePageState extends State<HomePage> {
               selectedStopData: _selectedStopData,
               onMarkerTap: _onStopTapped,
             ),
-            MovecsSlidingPanel(selectedStopData: _selectedStopData),
+            MovecsSlidingPanel(
+              selectedStopData: _selectedStopData,
+              onStopSelected: _onStopTapped,
+            ),
             TopBar(mapController: _mapController, onMarkerTap: _onStopTapped),
           ],
         ),
