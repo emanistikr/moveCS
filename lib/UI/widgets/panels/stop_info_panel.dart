@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movecs/controller/app_localization.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../controller/info_lines.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -24,15 +25,8 @@ class _StopInfoPanelState extends State<StopInfoPanel> {
   @override
   void initState() {
     super.initState();
-    _departuresFuture = _fetchData();
     InfoLines.getBusLines(); // Preload linee bus
-    Future.delayed(const Duration(seconds: 1), () {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    });
+    _loadData();
   }
 
   @override
@@ -47,7 +41,22 @@ class _StopInfoPanelState extends State<StopInfoPanel> {
     }
   }
 
-  // creo una funzione che restituisce dati fittizi per non avere problemi con firebase
+  void _loadData() {
+    setState(() {
+      isLoading = true;
+    });
+
+    _departuresFuture = _fetchData();
+
+    _departuresFuture.whenComplete(() {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+  }
+
   Future<List<Map<String, dynamic>>> _fetchData() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     final now = DateTime.now();
@@ -55,67 +64,26 @@ class _StopInfoPanelState extends State<StopInfoPanel> {
       return "${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}:${dt.second.toString().padLeft(2, '0')}";
     }
 
-    return [
-      {
-        'line_id': 'CVR',
-        'departure_time': formatTime(now.add(const Duration(minutes: 3))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'CVA',
-        'trip_id': 'Piazza Roma',
-        'departure_time': formatTime(now.add(const Duration(minutes: 12))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'CVRO',
-        'trip_id': 'Stazione Centrale',
-        'departure_time': formatTime(now.add(const Duration(minutes: 25))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'CVC',
-        'trip_id': 'Deposito',
-        'departure_time': formatTime(now.add(const Duration(minutes: 55))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'L26',
-        'trip_id': 'sexo',
-        'departure_time': formatTime(now.add(const Duration(minutes: 59))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'CVR',
-        'trip_id': 'Stazione Centrale',
-        'departure_time': formatTime(now.add(const Duration(minutes: 63))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'CVA',
-        'trip_id': 'Piazza Roma',
-        'departure_time': formatTime(now.add(const Duration(minutes: 72))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'CVRO',
-        'trip_id': 'Stazione Centrale',
-        'departure_time': formatTime(now.add(const Duration(minutes: 85))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'CVC',
-        'trip_id': 'Deposito',
-        'departure_time': formatTime(now.add(const Duration(minutes: 115))),
-        'stop_id': '5100',
-      },
-      {
-        'line_id': 'L26',
-        'trip_id': 'sexo',
-        'departure_time': formatTime(now.add(const Duration(minutes: 119))),
-        'stop_id': '5100',
-      },
-    ];
+    final stopId = widget.data?['code'];
+
+    if (stopId == null) return [];
+
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('stop_departures')
+          .where('stop_id', isEqualTo: stopId)
+          .where('departure_time', isGreaterThanOrEqualTo: formatTime(now))
+          .orderBy('departure_time')
+          .limit(10)
+          .get();
+
+      // Convertiamo i documenti Firebase in una lista di Map
+      return querySnapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      debugPrint("Errore nel recupero partenze: $e");
+      // In caso di errore ritorniamo una lista vuota o gestiamo l'errore diversamente
+      return [];
+    }
   }
 
   @override

@@ -94,7 +94,6 @@ class _NearStopsPanelState extends State<NearStopsPanel> {
       slivers: [
         _buildAppBar(context, nearWho),
         _buildBody(context),
-        // Spazio extra per evitare problemi di scroll su alcuni device
         SliverToBoxAdapter(
           child: SizedBox(height: MediaQuery.of(context).padding.bottom),
         ),
@@ -134,8 +133,7 @@ class _NearStopsPanelState extends State<NearStopsPanel> {
               'name': 'Fermata Bus Caricamento',
               'lat': 0.0,
               'lng': 0.0,
-              'distance_meters':
-                  150.0, // Un valore fittizio per mostrare i metri
+              'distance_meters': 150.0,
             },
           );
         } else if (snapshot.hasData) {
@@ -163,10 +161,12 @@ class _NearStopsPanelState extends State<NearStopsPanel> {
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.location_off,
                                 size: 48,
-                                color: Colors.grey,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                               const SizedBox(height: 16),
                               Text(
@@ -174,10 +174,12 @@ class _NearStopsPanelState extends State<NearStopsPanel> {
                                       context,
                                     )?.translate("NoStops") ??
                                     "Nessuna fermata trovata",
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                    ),
                               ),
                             ],
                           ),
