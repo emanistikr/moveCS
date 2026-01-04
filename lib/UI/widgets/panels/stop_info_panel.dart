@@ -210,7 +210,7 @@ class _StopInfoPanelState extends State<StopInfoPanel> {
                               context,
                             )?.translate("NoDepartures") ??
                             "No upcoming departures",
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
             )

@@ -22,7 +22,6 @@ dependencies:
   skeletonizer: ^2.1.2
 
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -38,3 +37,9 @@ flutter:
       - assets/translations/
 
   uses-material-design: true
+
+  fonts:
+    - family: OpenSans
+      fonts:
+      - asset: assets/fonts/OpenSans-ExtraBold.ttf
+        weight: 800 

@@ -39,6 +39,12 @@ class AppTheme {
       ),
 
       bodyMedium: GoogleFonts.openSans(
+        fontSize: AppFontSizes.large,
+        fontWeight: FontWeight.w300,
+        color: secondaryColor,
+      ),
+
+      bodySmall: GoogleFonts.openSans(
         fontSize: AppFontSizes.medium,
         fontWeight: FontWeight.w300,
         color: secondaryColor,
@@ -81,6 +87,20 @@ class AppTheme {
           }
           return const IconThemeData(color: AppColors.textGray);
         }),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return GoogleFonts.openSans(
+              fontSize: 11, // Dimensione corretta selezionato
+              fontWeight: FontWeight.bold,
+              color: AppColors.secondary, // Colore testo selezionato
+            );
+          }
+          return GoogleFonts.openSans(
+            fontSize: 10, // Dimensione corretta non selezionato
+            fontWeight: FontWeight.w500,
+            color: AppColors.textGray, // Colore testo non selezionato
+          );
+        }),
       ),
 
       colorScheme: const ColorScheme.light(
@@ -89,6 +109,8 @@ class AppTheme {
         secondary: AppColors.secondary,
         onSecondary: Colors.white,
         surface: AppColors.surface,
+        primaryContainer: Color(0xFFF4F4F4),
+        onPrimaryContainer: Color(0xFF8f8f8f),
         onSurface: AppColors.textDark,
         onSurfaceVariant: AppColors.textGray,
         background: AppColors.background,
@@ -121,6 +143,20 @@ class AppTheme {
           }
           return const IconThemeData(color: AppColors.textLightGray);
         }),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return GoogleFonts.openSans(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textLight,
+            );
+          }
+          return GoogleFonts.openSans(
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textLightGray,
+          );
+        }),
       ),
 
       colorScheme: const ColorScheme.dark(
@@ -128,6 +164,8 @@ class AppTheme {
         onPrimary: AppColors.secondary,
         secondary: AppColors.secondary,
         onSecondary: Colors.white,
+        primaryContainer: Color.fromARGB(255, 39, 39, 39),
+        onPrimaryContainer: Color.fromARGB(255, 197, 197, 197),
         surface: AppColors.surfaceDark,
         onSurface: AppColors.textLight,
         onSurfaceVariant: AppColors.textLightGray,

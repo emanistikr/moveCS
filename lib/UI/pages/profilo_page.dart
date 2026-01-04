@@ -13,9 +13,10 @@ class ProfiloPage extends StatefulWidget {
 class _ProfiloPageState extends State<ProfiloPage> {
   AuthController controller = AuthController();
   String nomeUtente = "Utente";
-  String urlImmagine = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80'; //Todo: prendere dal profilo utente
+  String urlImmagine =
+      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80'; //Todo: prendere dal profilo utente
 
-  Future<void> signOut() async{
+  Future<void> signOut() async {
     await AuthController().signOut();
   }
 
@@ -38,25 +39,50 @@ class _ProfiloPageState extends State<ProfiloPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Column(
         children: [
           // Parte superiore con colore adattato al tema
           Container(
+            padding: const EdgeInsets.only(
+              top: 50,
+              bottom: 25,
+              left: 20,
+              right: 20,
+            ),
+
             width: double.infinity,
-            padding: const EdgeInsets.only(top: 60, bottom: 40),
             decoration: WidgetStyles.cardDecoration(context),
             child: Column(
               children: [
-                Text(
-                  AppLocalizations.of(context)?.translate("profilo_text") ?? "My Profile",
-                  style: TextStyle(
-                      color: Theme.of(context).secondaryHeaderColor, // Colore testo adattato al tema
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context), // Torna al main
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 22,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(
+                              context,
+                            )?.translate('profilo_text') ??
+                            "My profile",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                  ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
 
                 // Immagine Profilo con tasto edit
                 Stack(
@@ -73,19 +99,26 @@ class _ProfiloPageState extends State<ProfiloPage> {
                       },
                       child: CircleAvatar(
                         radius: 18,
-                        backgroundColor: Theme.of(context).highlightColor,
-                        child: const Icon(Icons.edit, size: 18, color: Colors.black),
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.primary.withAlpha(180),
+                        child: const Icon(
+                          Icons.edit_outlined,
+                          size: 20,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  nomeUtente,
+                  "${AppLocalizations.of(context)?.translate('Hi') ?? 'Hi'}, $nomeUtente",
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    fontFamily: 'OpenSans',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ],
@@ -95,17 +128,51 @@ class _ProfiloPageState extends State<ProfiloPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              FloatingActionButton(
-                onPressed:(){signOut();},
-                backgroundColor: Theme.of(context).primaryColor,
-                child: Icon(Icons.logout, color: Theme.of(context).secondaryHeaderColor),
-
+              InkWell(
+                onTap: () {
+                  signOut();
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onPrimaryContainer.withAlpha(40),
+                      width: 2,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.logout,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
               ),
-              FloatingActionButton(
-                onPressed:(){controller.deleteAccount();},
-                backgroundColor: Theme.of(context).primaryColor,
-                child: Icon(Icons.delete, color: Theme.of(context).secondaryHeaderColor),
-
+              InkWell(
+                onTap: () {
+                  controller.deleteAccount();
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onPrimaryContainer.withAlpha(40),
+                      width: 2,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
               ),
             ],
           ),

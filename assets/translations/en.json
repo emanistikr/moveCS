@@ -20,5 +20,15 @@
   "UnknownStop": "Unknown stop",
   "NoDepartures": "No upcoming departures",
   "NoStops": "No stops found",
-  "Error": "An error has occurred"
+  "Error": "An error has occurred",
+  "myBalance": "My balance",
+  "myTickets": "My tickets",
+  "clickToShow": "Click here to show",
+  "buyNew": "Buy a new one",
+  "min": "mins",
+  "ore": "hours",
+  "expiredTickets": "Expired tickets",
+  "activation": "Activation",
+  "expiration": "Expiration",
+  "Hi": "Hi"
 }

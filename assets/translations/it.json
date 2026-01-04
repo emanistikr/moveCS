@@ -20,5 +20,16 @@
   "UnknownStop": "Fermata sconosciuta",
   "NoDepartures": "Nessuna partenza imminente",
   "NoStops": "Nessuna fermata trovata",
-  "Error": "Si è verificato un errore"
+  "Error": "Si è verificato un errore",
+  "myBalance": "Il mio saldo",
+  "myTickets": "I miei titoli di viaggio",
+  "clickToShow": "Clicca qui per mostrare",
+  "buyNew": "Acquista nuovo",
+  "min": "min",
+  "ore": "ore",
+  "expiredTickets": "Titoli scaduti",
+  "activation": "Attivazione",
+  "expiration": "Scadenza",
+  "Hi": "Ciao"
+
 }
