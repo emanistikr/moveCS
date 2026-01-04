@@ -4,7 +4,23 @@ import '../../controller/app_localization.dart';
 import '../../controller/auth_controller.dart';
 
 class ProfiloPage extends StatefulWidget {
-  const ProfiloPage({super.key});
+  final VoidCallback? onBack;
+
+  // Aggiungi questi parametri per gestire lo stato attuale e i cambiamenti
+  final bool isDarkMode;
+  final Locale currentLocale;
+  final ValueChanged<bool>? onThemeChanged;
+  final ValueChanged<Locale>? onLanguageChanged;
+
+  const ProfiloPage({
+    super.key,
+    this.onBack,
+    // Valori di default o passati dal padre
+    this.isDarkMode = false,
+    this.currentLocale = const Locale('it'),
+    this.onThemeChanged,
+    this.onLanguageChanged,
+  });
 
   @override
   State<ProfiloPage> createState() => _ProfiloPageState();
@@ -14,35 +30,50 @@ class _ProfiloPageState extends State<ProfiloPage> {
   AuthController controller = AuthController();
   String nomeUtente = "Utente";
   String urlImmagine =
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80'; //Todo: prendere dal profilo utente
+      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80';
+
+  late bool _isDark;
+  late Locale _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    _isDark = widget.isDarkMode;
+    _locale = widget.currentLocale;
+    recuperaDati();
+  }
+
+  @override
+  void didUpdateWidget(covariant ProfiloPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isDarkMode != oldWidget.isDarkMode) {
+      _isDark = widget.isDarkMode;
+    }
+    if (widget.currentLocale != oldWidget.currentLocale) {
+      _locale = widget.currentLocale;
+    }
+  }
 
   Future<void> signOut() async {
     await AuthController().signOut();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    recuperaDati();
-  }
-
   Future<void> recuperaDati() async {
-    // Ora puoi usare await correttamente
     String? verify = await controller.getUserName(await controller.getUid());
-
     setState(() {
-      nomeUtente = verify ?? "Utente"; // Aggiorna la variabile e rifà il build
+      nomeUtente = verify ?? "Utente";
     });
-    setState(() {}); // Aggiorna lo stato per riflettere il cambiamento
   }
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: colorScheme.surface,
       body: Column(
         children: [
-          // Parte superiore con colore adattato al tema
           Container(
             padding: const EdgeInsets.only(
               top: 50,
@@ -50,7 +81,6 @@ class _ProfiloPageState extends State<ProfiloPage> {
               left: 20,
               right: 20,
             ),
-
             width: double.infinity,
             decoration: WidgetStyles.cardDecoration(context),
             child: Column(
@@ -58,11 +88,11 @@ class _ProfiloPageState extends State<ProfiloPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context), // Torna al main
+                    InkWell(
+                      onTap: widget.onBack,
                       child: Icon(
                         Icons.arrow_back_ios,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: colorScheme.primary,
                         size: 22,
                       ),
                     ),
@@ -73,8 +103,8 @@ class _ProfiloPageState extends State<ProfiloPage> {
                             )?.translate('profilo_text') ??
                             "My profile",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -83,8 +113,6 @@ class _ProfiloPageState extends State<ProfiloPage> {
                   ],
                 ),
                 const SizedBox(height: 40),
-
-                // Immagine Profilo con tasto edit
                 Stack(
                   alignment: Alignment.bottomRight,
                   children: [
@@ -93,15 +121,10 @@ class _ProfiloPageState extends State<ProfiloPage> {
                       backgroundImage: NetworkImage(urlImmagine),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        // TODO: funzione modifica immagine profilo
-                        print("Tasto edit premuto");
-                      },
+                      onTap: () => print("Tasto edit premuto"),
                       child: CircleAvatar(
                         radius: 18,
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.primary.withAlpha(180),
+                        backgroundColor: colorScheme.primary.withAlpha(180),
                         child: const Icon(
                           Icons.edit_outlined,
                           size: 20,
@@ -115,69 +138,147 @@ class _ProfiloPageState extends State<ProfiloPage> {
                 Text(
                   "${AppLocalizations.of(context)?.translate('Hi') ?? 'Hi'}, $nomeUtente",
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: colorScheme.onSecondary,
                     fontFamily: 'OpenSans',
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
+                const SizedBox(height: 5),
+                InkWell(
+                  onTap: signOut,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${AppLocalizations.of(context)?.translate('NotYou') ?? 'Not'} $nomeUtente? ",
+                        style: TextStyle(
+                          color: colorScheme.primary,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        "${AppLocalizations.of(context)?.translate('logOut') ?? 'log out'}",
+                        style: TextStyle(
+                          color: colorScheme.primary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Icon(Icons.logout, color: colorScheme.primary, size: 14),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              InkWell(
-                onTap: () {
-                  signOut();
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onPrimaryContainer.withAlpha(40),
-                      width: 2,
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.logout,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  controller.deleteAccount();
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onPrimaryContainer.withAlpha(40),
-                      width: 2,
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.delete,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
-                ),
-              ),
-            ],
-          ),
 
-          const SizedBox(height: 50),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                //selettore tema scuro/chiaro
+                SwitchListTile(
+                  title: Text(
+                    AppLocalizations.of(context)?.translate('darkMode') ??
+                        "Dark Mode",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                  secondary: Icon(
+                    _isDark ? Icons.dark_mode : Icons.light_mode,
+                    color: colorScheme.primary,
+                  ),
+                  value: _isDark,
+                  activeColor: colorScheme.primary,
+                  onChanged: (val) {
+                    setState(() => _isDark = val);
+                    if (widget.onThemeChanged != null) {
+                      widget.onThemeChanged!(val);
+                    }
+                  },
+                ),
+
+                Divider(color: Colors.grey.withAlpha(50)),
+
+                //selettore lingua
+                ListTile(
+                  title: Text(
+                    AppLocalizations.of(context)?.translate('language') ??
+                        "Language",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                  leading: Icon(Icons.language, color: colorScheme.primary),
+                  trailing: DropdownButton<Locale>(
+                    value: _locale,
+                    underline: Container(), // Rimuove la linea sotto
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: colorScheme.primary,
+                    ),
+                    onChanged: (Locale? newLocale) {
+                      if (newLocale != null) {
+                        setState(() => _locale = newLocale);
+                        if (widget.onLanguageChanged != null) {
+                          widget.onLanguageChanged!(newLocale);
+                        }
+                      }
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        value: Locale('it', ''),
+                        child: Text("Italiano 🇮🇹"),
+                      ),
+                      DropdownMenuItem(
+                        value: Locale('en', ''),
+                        child: Text("English 🇬🇧"),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Divider(color: Colors.grey.withAlpha(50)),
+                const SizedBox(height: 50),
+
+                // Pulsante elimina account
+                InkWell(
+                  onTap: controller.deleteAccount,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${AppLocalizations.of(context)?.translate('wantToDelete') ?? 'Wanna break my heart 💔?'} ",
+                        style: TextStyle(
+                          color: colorScheme.error,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        AppLocalizations.of(
+                              context,
+                            )?.translate('deleteAccount') ??
+                            'Delete Account',
+                        style: TextStyle(
+                          color: colorScheme.error,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Icon(Icons.delete, color: colorScheme.error, size: 14),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

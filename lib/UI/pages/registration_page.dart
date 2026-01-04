@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../controller/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../controller/app_localization.dart';
-import 'App.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -31,18 +30,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
       );
       //Verifichiamo che registrazione e login sono andate okay
       String? uid = await controller.getUid();
-      if (uid != null){
+      if (uid != null) {
         controller.addUserDetails(
-            uid,
-            _nameController.text,
-            _surnameController.text,
-            _emailController.text
+          uid,
+          _nameController.text,
+          _surnameController.text,
+          _emailController.text,
         );
       }
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => App()),
-            (route) => false,
-      );
+      if (context.mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
     } on FirebaseAuthException catch (error) {
       debugPrint(error.toString());
     }
@@ -52,7 +50,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)?.translate("signUp") ?? "Sign Up"),
+        title: Text(
+          AppLocalizations.of(context)?.translate("signUp") ?? "Sign Up",
+        ),
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
       ),
       body: Padding(
@@ -63,19 +63,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
             TextField(
               controller: _nameController,
               decoration: InputDecoration(
-                label: Text(AppLocalizations.of(context)?.translate("Name") ?? "Name", style: Theme.of(context).textTheme.bodyLarge),
+                label: Text(
+                  AppLocalizations.of(context)?.translate("Name") ?? "Name",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ),
             TextField(
               controller: _surnameController,
               decoration: InputDecoration(
-                label: Text(AppLocalizations.of(context)?.translate("Surname") ?? "Surname", style: Theme.of(context).textTheme.bodyLarge),
+                label: Text(
+                  AppLocalizations.of(context)?.translate("Surname") ??
+                      "Surname",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
-                label: Text('Email', style: Theme.of(context).textTheme.bodyLarge),
+                label: Text(
+                  'Email',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ),
             Row(
@@ -85,13 +95,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     controller: _passwordController,
                     obscureText: !_passwordVisible,
                     decoration: InputDecoration(
-                      label: Text('Password', style: Theme.of(context).textTheme.bodyLarge),
+                      label: Text(
+                        'Password',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
-                  onPressed: () => setState(() => _passwordVisible = !_passwordVisible),
+                  icon: Icon(
+                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: () =>
+                      setState(() => _passwordVisible = !_passwordVisible),
                 ),
               ],
             ),
@@ -99,13 +115,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ElevatedButton(
               onPressed: createUser,
               child: Text(
-                AppLocalizations.of(context)?.translate("createAccount") ?? "Create Account",
+                AppLocalizations.of(context)?.translate("createAccount") ??
+                    "Create Account",
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
             TextButton(
-              onPressed: () => Navigator.pop(context), // Torna indietro al Login
-              child: Text(AppLocalizations.of(context)?.translate("passToLogIn") ?? "Back to Login"),
+              onPressed: () =>
+                  Navigator.pop(context), // Torna indietro al Login
+              child: Text(
+                AppLocalizations.of(context)?.translate("passToLogIn") ??
+                    "Back to Login",
+              ),
             ),
           ],
         ),

@@ -16,21 +16,66 @@ void main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+  Locale? _locale;
+
+  void _toggleTheme(bool isDark) {
+    setState(() {
+      // Quando l'utente tocca lo switch, forziamo Scuro o Chiaro
+      _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
+
+  void _changeLanguage(Locale locale) {
+    setState(() {
+      _locale = locale; // Qui l'utente sovrascrive l'automatico
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: _themeMode, // Usa la variabile che ora parte come 'system'
+
       title: AppConstants.appName,
-      localizationsDelegates: [
+
+      locale: _locale,
+
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('it'), Locale('en')],
+
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        // Se c'è una lingua manuale (_locale != null), Flutter usa quella.
+        // Se _locale è null, entra qui.
+
+        // Se il telefono ha una lingua (deviceLocale) e questa è tra quelle supportate (it o en)
+        if (deviceLocale != null) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == deviceLocale.languageCode) {
+              return supportedLocale; // Trovata! Usa la lingua del telefono
+            }
+          }
+        }
+        // Se il telefono è in Spagnolo/Cinese/Ecc, usiamo l'Inglese come fallback
+        return supportedLocales.last;
+      },
+
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
+      supportedLocales: const [Locale('it'), Locale('en')],
+
       debugShowCheckedModeBanner: false,
       //Verifica se l'utente ha già effettuato l'accesso e su questo
       //decide cosa svolgere
@@ -38,9 +83,35 @@ class MainApp extends StatelessWidget {
         stream: AuthController().authStateChanges,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const App();
+            // 3. CALCOLO DELLA LINGUA DA MOSTRARE
+            // Dobbiamo dire alla pagina "App" quale lingua stiamo usando.
+            // Se _locale è null, dobbiamo "indovinare" quale ha scelto il localeResolutionCallback
+            // usando la lingua di sistema attuale.
+
+            Locale effectiveLocale = _locale ?? const Locale('en');
+
+            if (_locale == null) {
+              // Recuperiamo la lingua del sistema
+              final systemLoc =
+                  WidgetsBinding.instance.platformDispatcher.locale;
+              // Se è italiano, passiamo italiano, altrimenti inglese
+              if (systemLoc.languageCode == 'it') {
+                effectiveLocale = const Locale('it');
+              }
+            }
+
+            final bool isDarkCurrently = _themeMode == ThemeMode.system
+                ? MediaQuery.platformBrightnessOf(context) == Brightness.dark
+                : _themeMode == ThemeMode.dark;
+
+            return App(
+              isDarkMode: isDarkCurrently,
+              currentLocale: effectiveLocale,
+              onThemeChanged: _toggleTheme,
+              onLanguageChanged: _changeLanguage,
+            );
           } else {
-            return LoginPage();
+            return const LoginPage();
           }
         },
       ),

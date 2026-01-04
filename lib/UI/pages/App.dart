@@ -7,7 +7,18 @@ import '../../config/widget_decoration/widget_styles.dart';
 import '../../controller/app_localization.dart';
 
 class App extends StatefulWidget {
-  const App({super.key});
+  final bool isDarkMode;
+  final Locale currentLocale;
+  final ValueChanged<bool> onThemeChanged;
+  final ValueChanged<Locale> onLanguageChanged;
+
+  const App({
+    super.key,
+    required this.isDarkMode,
+    required this.currentLocale,
+    required this.onThemeChanged,
+    required this.onLanguageChanged,
+  });
 
   @override
   State<App> createState() => _AppState();
@@ -16,12 +27,25 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int selectedIndex = 0;
 
-  final List<Widget> _pages = [
+  List<Widget> get _pages => [
     HomePage(),
-    const WalletPage(),
-    const NotifichePage(),
-    const ProfiloPage(),
+    WalletPage(onBack: () => _goHome()),
+    NotifichePage(onBack: () => _goHome()),
+    ProfiloPage(
+      onBack: () => _goHome(),
+      isDarkMode: widget.isDarkMode,
+      currentLocale: widget.currentLocale,
+      onThemeChanged: widget.onThemeChanged,
+      onLanguageChanged: widget.onLanguageChanged,
+    ),
   ];
+
+  void _goHome() {
+    debugPrint("Tornando alla Home Page");
+    setState(() {
+      selectedIndex = 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

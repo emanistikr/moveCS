@@ -3,7 +3,9 @@ import '../../../controller/app_localization.dart';
 import '../../config/widget_decoration/widget_styles.dart';
 
 class WalletPage extends StatelessWidget {
-  const WalletPage({super.key});
+  final VoidCallback? onBack; // Aggiungi questo callback
+
+  const WalletPage({super.key, this.onBack});
 
   // Colori estratti dall'immagine
   @override
@@ -96,8 +98,8 @@ class WalletPage extends StatelessWidget {
         children: [
           Row(
             children: [
-              GestureDetector(
-                onTap: () => Navigator.pop(context), // Torna al main
+              InkWell(
+                onTap: onBack,
                 child: Icon(
                   Icons.arrow_back_ios,
                   color: Theme.of(context).colorScheme.primary,

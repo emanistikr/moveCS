@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NotifichePage extends StatelessWidget {
-  const NotifichePage({super.key});
+  final VoidCallback? onBack; // Aggiungi questo callback
+  const NotifichePage({super.key, this.onBack});
 
   @override
   Widget build(BuildContext context) {
