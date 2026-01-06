@@ -9,10 +9,12 @@ import 'firebase_options.dart';
 import 'controller/auth_controller.dart';
 //import 'UI/pages/login_and_registration_page.dart';
 import 'UI/pages/login_page.dart';
+import 'controller/notification_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await notificationController().init();
   runApp(const MainApp());
 }
 

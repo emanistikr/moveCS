@@ -21,6 +21,7 @@ dependencies:
   google_fonts: ^6.3.3
   skeletonizer: ^2.1.2
   shared_preferences: ^2.5.4
+  firebase_messaging: ^16.1.0
 
 
 dev_dependencies:
