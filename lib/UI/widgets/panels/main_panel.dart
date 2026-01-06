@@ -390,6 +390,8 @@ class _MainPanelState extends State<MainPanel> {
                 if (context.mounted) {
                   Navigator.pop(context);
                 }
+
+                _loadAddresses();
               },
             ),
           ],
