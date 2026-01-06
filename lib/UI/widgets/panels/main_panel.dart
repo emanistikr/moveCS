@@ -142,7 +142,12 @@ class _MainPanelState extends State<MainPanel> {
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       )
-                    : HorizontalBusList(lines: displayStops),
+                    : HorizontalBusList(
+                        lines: displayStops,
+                        onFavoritesUpdated: () {
+                          _loadFavorites();
+                        },
+                      ),
               ),
               const SizedBox(height: 20),
               Row(

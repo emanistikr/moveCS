@@ -246,7 +246,7 @@ class _StopInfoPanelState extends State<StopInfoPanel> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BusRoutePage(routeName: "CVC"),
+            builder: (context) => BusRoutePage(routeName: lineId),
           ),
         );
       },

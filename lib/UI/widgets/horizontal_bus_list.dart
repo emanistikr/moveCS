@@ -6,11 +6,13 @@ import '../pages/bus_route_page.dart';
 class HorizontalBusList extends StatelessWidget {
   final List<String> lines;
   final bool isLoading;
+  final VoidCallback? onFavoritesUpdated;
 
   const HorizontalBusList({
     super.key,
     required this.lines,
     this.isLoading = false,
+    this.onFavoritesUpdated,
   });
 
   @override
@@ -40,7 +42,9 @@ class HorizontalBusList extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => BusRoutePage(routeName: shortName),
               ),
-            );
+            ).then((_) {
+              onFavoritesUpdated?.call();
+            });
           },
           child: Container(
             width: 120,
