@@ -141,6 +141,13 @@ class _NearStopsPanelState extends State<NearStopsPanel> {
         }
 
         return Skeletonizer.sliver(
+          effect: ShimmerEffect(
+            baseColor: Theme.of(
+              context,
+            ).colorScheme.onPrimaryContainer.withAlpha(50),
+            highlightColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            duration: Duration(seconds: 1),
+          ),
           enabled: isLoading,
           child: (!isLoading && (snapshot.hasError || stopsList.isEmpty))
               ? SliverFillRemaining(

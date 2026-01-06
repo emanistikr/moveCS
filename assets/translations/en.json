@@ -36,5 +36,15 @@
   "darkMode": "Dark mode",
   "language": "Language",
   "wantToDelete": "Wanna break my heart 💔?",
-  "deleteAccount": "Delete you account"
+  "deleteAccount": "Delete you account",
+    "favoriteLines": "Favorite lines",
+  "myAddresses": "My addresses",
+  "edit": "Edit",
+    "house": "House",
+  "work": "Work",
+  "noFavorites": "No favorite lines yet!",
+  "save": "SAVE",
+  "cancel": "CANCEL",
+  "noAddresses": "No address set"
+
 }

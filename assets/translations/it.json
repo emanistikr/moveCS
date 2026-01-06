@@ -36,5 +36,16 @@
   "darkMode": "Tema scuro",
   "language": "Lingua",
   "wantToDelete": "Vuoi spezzarmi il cuore 💔?",
-  "deleteAccount": "Elimina account"
+  "deleteAccount": "Elimina account",
+  "favoriteLines": "Linee preferite",
+  "myAddresses": "I miei indirizzi",
+  "edit": "Modifica",
+  "house": "Casa",
+  "work": "Lavoro",
+    "noFavorites": "Ancora nessuna linea preferita!",
+      "save": "SALVA",
+  "cancel": "ANNULLA",
+    "noAddresses": "Nessun indirizzo impostato"
+
+
 }

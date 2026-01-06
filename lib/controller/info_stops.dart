@@ -82,4 +82,36 @@ class InfoStops {
 
     return markers;
   }
+
+  static List<Marker> getMarkerList(List<Map<String, dynamic>> data) {
+    List<Marker> markers = [];
+
+    for (var doc in data) {
+      double latitude = doc['lat'];
+      double longitude = doc['lng'];
+      LatLng position = LatLng(latitude, longitude);
+
+      Marker marker = Marker(
+        markerId: MarkerId(doc["code"].toString()),
+        position: position,
+        icon: _stopIcon!,
+        infoWindow: InfoWindow(title: doc["name"]),
+      );
+      markers.add(marker);
+    }
+
+    return markers;
+  }
+
+  //metodo per ottenere i dettagli di una fermata tramite ID
+  static Map<String, dynamic>? getStopDetails(String stopId) {
+    if (_cachedData == null) return null;
+
+    try {
+      final doc = _cachedData!.firstWhere((doc) => doc.id == stopId);
+      return doc.data() as Map<String, dynamic>;
+    } catch (e) {
+      return null;
+    }
+  }
 }

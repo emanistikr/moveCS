@@ -20,6 +20,7 @@ dependencies:
   firebase_auth: ^6.1.3
   google_fonts: ^6.3.3
   skeletonizer: ^2.1.2
+  shared_preferences: ^2.5.4
 
 
 dev_dependencies:
@@ -32,6 +33,7 @@ flutter:
       - assets/icons/stop_icon.png
       - assets/icons/selected_stop_icon.png
       - assets/icons/selected_location_icon.png
+      - assets/icons/logo_circolare_veloce.png
       - assets/map_styles/map_style_light.json
       - assets/map_styles/map_style_dark.json
       - assets/translations/

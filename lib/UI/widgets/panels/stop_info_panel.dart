@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:movecs/UI/widgets/horizontal_bus_list.dart';
 import 'package:movecs/controller/app_localization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../controller/info_lines.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import '../../pages/bus_route_page.dart';
 
 class StopInfoPanel extends StatefulWidget {
   final Map<String, dynamic>? data;
@@ -165,6 +167,13 @@ class _StopInfoPanelState extends State<StopInfoPanel> {
     }
 
     return Skeletonizer.sliver(
+      effect: ShimmerEffect(
+        baseColor: Theme.of(
+          context,
+        ).colorScheme.onPrimaryContainer.withAlpha(50),
+        highlightColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        duration: Duration(seconds: 1),
+      ),
       enabled: isLoading,
       child: (!isLoading && (snapshot.hasError || departures.isEmpty))
           ? SliverFillRemaining(
@@ -224,7 +233,7 @@ class _StopInfoPanelState extends State<StopInfoPanel> {
     );
   }
 
-  ListTile _buildDepartureTile(
+  InkWell _buildDepartureTile(
     String lineId,
     Map<String, dynamic>? lineDetails,
     Color busColor,
@@ -232,107 +241,83 @@ class _StopInfoPanelState extends State<StopInfoPanel> {
     String destination,
     String timeString,
   ) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      leading: Container(
-        width: 75,
-        height: 60,
-        decoration: BoxDecoration(
-          color: busColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Center(
-          child: Text(
-            busShortName,
-            style: Theme.of(context).textTheme.displaySmall,
-            textAlign: TextAlign.center,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BusRoutePage(routeName: "CVC"),
+          ),
+        );
+      },
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+        leading: Container(
+          width: 75,
+          height: 60,
+          decoration: BoxDecoration(
+            color: busColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Center(
+            child: Text(
+              busShortName,
+              style: Theme.of(context).textTheme.displaySmall,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
-      ),
-      title: Text(
-        lineDetails?['long_name'] ?? lineId,
-        style: Theme.of(context).textTheme.labelMedium,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Text(
-        "Per $destination",
-        style: Theme.of(context).textTheme.labelSmall,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            timeString,
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            "${getMinutesFromNow(timeString)} min",
-            style: Theme.of(
-              context,
-            ).textTheme.labelSmall?.copyWith(fontSize: 13),
-          ),
-        ],
+        title: Text(
+          lineDetails?['long_name'] ?? lineId,
+          style: Theme.of(context).textTheme.labelMedium,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          "Per $destination",
+          style: Theme.of(context).textTheme.labelSmall,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              timeString,
+              style: Theme.of(
+                context,
+              ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "${getMinutesFromNow(timeString)} min",
+              style: Theme.of(
+                context,
+              ).textTheme.labelSmall?.copyWith(fontSize: 13),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   SizedBox _buildHorizontalBusList(List<String> lines) {
     // Se sta caricando, ignoriamo la lista vuota 'lines' e ne creiamo una finta con 4 elementi per mostrare 4 "card" grigie che pulsano.
-    final effectiveLines = isLoading
-        ? ['fake_1', 'fake_2', 'fake_3', 'fake_4']
-        : lines;
+    final effectiveLines = isLoading ? ['L1', 'L2', 'L3', 'L4'] : lines;
 
     return SizedBox(
       height: 50,
       child: Skeletonizer(
+        effect: ShimmerEffect(
+          baseColor: Theme.of(
+            context,
+          ).colorScheme.onPrimaryContainer.withAlpha(50),
+          highlightColor: Theme.of(context).colorScheme.onPrimaryContainer,
+          duration: Duration(seconds: 1),
+        ),
         enabled: isLoading,
         child: effectiveLines.isEmpty
             ? const SizedBox()
-            : ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: effectiveLines.length,
-                itemBuilder: (context, i) {
-                  String lineId = effectiveLines[i];
-
-                  var details = InfoLines.getLineDetails(lineId);
-                  Color color = details != null
-                      ? InfoLines.hexToColor(details['color'])
-                      : Colors.grey.shade300;
-
-                  String shortName =
-                      details?['short_name']?.toString() ?? "BUS";
-
-                  return Container(
-                    width: 120,
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Icon(
-                          Icons.loop_rounded,
-                          size: 40,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          shortName,
-                          style: Theme.of(context).textTheme.displaySmall,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+            : HorizontalBusList(lines: effectiveLines),
       ),
     );
   }

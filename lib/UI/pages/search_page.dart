@@ -5,9 +5,12 @@ import '../../controller/app_localization.dart';
 import '../../models/search_category.dart';
 import '../../models/search_result.dart';
 import '../../repositories/search_repository.dart';
+import 'bus_route_page.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final String? addressQuery;
+
+  const SearchPage({this.addressQuery, super.key});
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -26,6 +29,11 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    if (widget.addressQuery != null) {
+      _searchController.text = widget.addressQuery ?? "";
+      _onSearchChanged(widget.addressQuery ?? "");
+    }
+
     // Ritarda il focus per non far buggare la tastiera
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) _focusNode.requestFocus();
@@ -263,6 +271,14 @@ class _SearchPageState extends State<SearchPage> {
                           );
 
                           Navigator.of(context).pop(newResult);
+                        } else if (result.type == SearchCategory.lines) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  BusRoutePage(routeName: result.id),
+                            ),
+                          );
                         } else {
                           Navigator.of(context).pop(result);
                         }

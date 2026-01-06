@@ -11,6 +11,9 @@ class GeoMap extends StatefulWidget {
   final String? selectedStopId;
   final Map<String, dynamic>? selectedStopData;
   final Function(String, Map<String, dynamic>) onMarkerTap;
+  final List<LatLng>? routePolyline;
+  final List<Marker>? customMarkers;
+  final Color? routeColor;
 
   const GeoMap({
     super.key,
@@ -18,6 +21,9 @@ class GeoMap extends StatefulWidget {
     this.selectedStopId,
     this.selectedStopData,
     required this.onMarkerTap,
+    this.routePolyline,
+    this.customMarkers,
+    this.routeColor,
   });
 
   @override
@@ -34,10 +40,23 @@ class GeoMapState extends State<GeoMap> {
   String? _lightStyle;
   String? _darkStyle;
 
+  final Set<Polyline> _polylines = {};
+
   @override
   void initState() {
     super.initState();
     _loadData();
+
+    if (widget.routePolyline != null && widget.routePolyline!.isNotEmpty) {
+      _polylines.add(
+        Polyline(
+          polylineId: const PolylineId('route'),
+          points: widget.routePolyline!,
+          color: widget.routeColor ?? Colors.blue, // O prendilo dal tema
+          width: 5,
+        ),
+      );
+    }
   }
 
   // rileva cambiamenti nella fermata selezionata
@@ -121,7 +140,7 @@ class GeoMapState extends State<GeoMap> {
 
     return GoogleMap(
       // Passiamo il Set già pronto. Nessun calcolo qui!
-      markers: _markers,
+      markers: widget.customMarkers?.toSet() ?? _markers,
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(target: _center, zoom: 15),
       myLocationEnabled: true,
@@ -134,6 +153,8 @@ class GeoMapState extends State<GeoMap> {
       trafficEnabled: false,
 
       mapType: MapType.normal,
+
+      polylines: _polylines,
     );
   }
 }

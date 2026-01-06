@@ -58,14 +58,15 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
   @override
   Widget build(BuildContext context) {
     double snapLow = (widget.selectedStopData?['code'] != null) ? 0.22 : 0.15;
+    double snapHigh = (widget.selectedStopData?['code'] != null) ? 0.85 : 0.65;
     return DraggableScrollableSheet(
       controller: _panelController,
       initialChildSize: 0.50, // <- più alto per includere lo spazio trasparente
       minChildSize: snapLow,
-      maxChildSize: 0.85,
+      maxChildSize: snapHigh,
 
       snap: true,
-      snapSizes: [snapLow, 0.50, 0.85],
+      snapSizes: [snapLow, 0.50, snapHigh],
 
       builder: (context, scrollController) {
         return Column(
@@ -97,7 +98,10 @@ class _MovecsSlidingPanelState extends State<MovecsSlidingPanel> {
                 ),
                 clipBehavior: Clip.hardEdge,
                 child: (widget.selectedStopData?['code'] == null)
-                    ? MainPanel(scrollController: scrollController)
+                    ? MainPanel(
+                        scrollController: scrollController,
+                        onMarkerTap: widget.onStopSelected,
+                      )
                     : (widget.selectedStopData?['id'] == '0' ||
                           widget.selectedStopData?['id'] == '1')
                     ? NearStopsPanel(

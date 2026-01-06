@@ -134,7 +134,7 @@ class SearchRepository {
 
           return SearchResult(
             id: doc.id,
-            title: data['long_name'],
+            title: data['short_name'],
             subtitle: data['destination'],
             type: SearchCategory.lines,
           );

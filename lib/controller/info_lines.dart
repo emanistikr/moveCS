@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'info_stops.dart';
 
 class InfoLines {
   static List<QueryDocumentSnapshot>? _cachedLines;
@@ -35,6 +36,21 @@ class InfoLines {
     } catch (e) {
       return null;
     }
+  }
+
+  //metodo per ottenere la lista di fermate della linea
+  static List<Map<String, dynamic>> getLineStops(String lineId) {
+    final details = getLineDetails(lineId);
+    if (details == null || !details.containsKey('stops')) {
+      return [];
+    }
+
+    List<Map<String, dynamic>> stops = [];
+    for (var stop in details['stops']) {
+      stops.add(InfoStops.getStopDetails(stop.toString()) ?? {});
+    }
+
+    return stops;
   }
 
   // HEX to Color
