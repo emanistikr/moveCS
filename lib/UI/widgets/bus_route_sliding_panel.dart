@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import '../../config/widget_decoration/widget_styles.dart';
 import '../../controller/favorites_manager.dart';
 //import '../../controller/info_lines.dart';
+import '../../controller/app_localization.dart';
 
 class BusRouteSlidingPanel extends StatefulWidget {
+
+  void onBack (BuildContext context){
+    Navigator.pop(context);
+  }
+
   final Map<String, dynamic> lineDetails;
   final Color lineColor;
   final List<Map<String, dynamic>> routeStops;
@@ -62,6 +68,10 @@ class _BusRouteSlidingPanelState extends State<BusRouteSlidingPanel> {
 
   @override
   Widget build(BuildContext context) {
+
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final double maxHeightPixels = constraints.maxHeight;
@@ -160,6 +170,14 @@ class _BusRouteSlidingPanelState extends State<BusRouteSlidingPanel> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            InkWell(
+                              onTap: () => widget.onBack(context),
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: colorScheme.primary,
+                                size: 22,
+                              ),
+                            ),
                             Image.asset(
                               'assets/icons/logo_circolare_veloce.png',
                               height: 50,
