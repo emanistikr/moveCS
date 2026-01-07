@@ -119,8 +119,8 @@ class NotifichePage extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {
-              NotificationController.notificationsNotifier.value = [];
+            onTap: () async {
+              await NotificationController().clearAll();
             },
             child: Icon(
               Icons.delete_sweep,

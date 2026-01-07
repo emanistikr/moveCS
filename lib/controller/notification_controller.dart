@@ -75,4 +75,12 @@ class NotificationController {
       tabIndexNotifier.value = 2;
     }
   }
+
+  // cancella le notifiche
+  Future<void> clearAll() async {
+    notificationsNotifier.value = [];
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('saved_notifications');
+  }
 }
