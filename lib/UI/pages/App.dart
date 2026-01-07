@@ -77,7 +77,7 @@ class _AppState extends State<App> {
               NavigationDestination(
                 selectedIcon: const Icon(Icons.home, size: 29),
                 icon: const Icon(Icons.home_outlined, size: 29),
-                label: AppLocalizations.of(context)?.translate("home") ?? "",
+                label: AppLocalizations.of(context)?.translate("home") ?? "Home",
               ),
               NavigationDestination(
                 selectedIcon: const Icon(
@@ -88,19 +88,19 @@ class _AppState extends State<App> {
                   Icons.account_balance_wallet_outlined,
                   size: 29,
                 ),
-                label: AppLocalizations.of(context)?.translate("wallet") ?? "",
+                label: AppLocalizations.of(context)?.translate("wallet") ?? "Wallet",
               ),
               NavigationDestination(
                 selectedIcon: const Icon(Icons.notifications, size: 29),
                 icon: const Icon(Icons.notifications_outlined, size: 29),
                 label:
                     AppLocalizations.of(context)?.translate("notifications") ??
-                    "",
+                    "Notifications",
               ),
               NavigationDestination(
                 selectedIcon: const Icon(Icons.person, size: 29),
                 icon: const Icon(Icons.person_outline, size: 29),
-                label: AppLocalizations.of(context)?.translate("profile") ?? "",
+                label: AppLocalizations.of(context)?.translate("profile") ?? "Profile",
               ),
             ],
           ),

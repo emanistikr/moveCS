@@ -30,7 +30,10 @@ class _ProfiloPageState extends State<ProfiloPage> {
   AuthController controller = AuthController();
   String nomeUtente = "Utente";
   String urlImmagine =
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80';
+      //Imagine con foto soggetto
+      //'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80';
+      //Icona generica utente
+      'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
 
   late bool _isDark;
   late Locale _locale;

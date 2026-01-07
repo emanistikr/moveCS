@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import '../../config/widget_decoration/widget_styles.dart';
 import '../../controller/favorites_manager.dart';
 //import '../../controller/info_lines.dart';
-import '../../controller/app_localization.dart';
 
 class BusRouteSlidingPanel extends StatefulWidget {
-
-  void onBack (BuildContext context){
+  void onBack(BuildContext context) {
     Navigator.pop(context);
   }
 
@@ -68,10 +66,6 @@ class _BusRouteSlidingPanelState extends State<BusRouteSlidingPanel> {
 
   @override
   Widget build(BuildContext context) {
-
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final double maxHeightPixels = constraints.maxHeight;
@@ -174,34 +168,45 @@ class _BusRouteSlidingPanelState extends State<BusRouteSlidingPanel> {
                               onTap: () => widget.onBack(context),
                               child: Icon(
                                 Icons.arrow_back_ios,
-                                color: colorScheme.primary,
+                                color: Colors.white,
                                 size: 22,
                               ),
                             ),
-                            Image.asset(
+                            (widget.lineDetails["short_name"][0] == 'C')
+                                ? Image.asset(
                               'assets/icons/logo_circolare_veloce.png',
                               height: 50,
+                            )
+                                : Text(
+                              "LINEA",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall
+                                  ?.copyWith(fontSize: 65),
                             ),
                             Text(
-                              widget.lineDetails["short_name"] ?? "LINEA",
+                              (widget.lineDetails["short_name"][0] == 'C')
+                                  ? widget.lineDetails["short_name"] ?? "LINEA"
+                                  : (widget.lineDetails["short_name"])
+                                  .toString()
+                                  .replaceFirst("L", ""),
                               style: Theme.of(
                                 context,
                               ).textTheme.displaySmall?.copyWith(fontSize: 65),
                             ),
-
                             InkWell(
                               onTap: _toggleFavorite,
                               child: isFavorite
                                   ? const Icon(
-                                      Icons.star,
-                                      size: 30,
-                                      color: Colors.white,
-                                    )
+                                Icons.star,
+                                size: 30,
+                                color: Colors.white,
+                              )
                                   : const Icon(
-                                      Icons.star_border,
-                                      size: 30,
-                                      color: Colors.white,
-                                    ),
+                                Icons.star_border,
+                                size: 30,
+                                color: Colors.white,
+                              ),
                             ),
                             // ----------------------------------
                           ],

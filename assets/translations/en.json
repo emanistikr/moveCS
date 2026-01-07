@@ -45,6 +45,8 @@
   "noFavorites": "No favorite lines yet!",
   "save": "SAVE",
   "cancel": "CANCEL",
-  "noAddresses": "No address set"
+  "noAddresses": "No address set",
+  "notificationTitle": "Your Notifications",
+  "noNotification": "There are no new notifications"
 
 }
