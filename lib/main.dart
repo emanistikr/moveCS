@@ -11,6 +11,8 @@ import 'controller/auth_controller.dart';
 import 'UI/pages/login_page.dart';
 import 'controller/notification_controller.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -45,6 +47,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       themeMode: _themeMode, // Usa la variabile che ora parte come 'system'
 
       title: AppConstants.appName,

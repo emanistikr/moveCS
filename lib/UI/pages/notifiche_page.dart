@@ -1,66 +1,134 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../controller/notification_controller.dart';
 import '../../controller/app_localization.dart';
+import '../../config/widget_decoration/widget_styles.dart';
+import '../../models/notification_model.dart'; // Assicurati che il percorso sia corretto
 
 class NotifichePage extends StatelessWidget {
-
   final VoidCallback? onBack;
 
-  const NotifichePage({super.key , this.onBack});
+  const NotifichePage({super.key, this.onBack});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)?.translate("notificationTitle") ?? "Your Notifications"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete_sweep),
-            onPressed: () => NotificationController.notificationsNotifier.value = [],
-          )
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: Column(
+        children: [
+          _buildAppBar(context),
+          Expanded(
+            child: ValueListenableBuilder<List<NotificationModel>>(
+              valueListenable: NotificationController.notificationsNotifier,
+              builder: (context, notifications, child) {
+                if (notifications.isEmpty) {
+                  return Center(
+                    child: Text(
+                      AppLocalizations.of(
+                            context,
+                          )?.translate("noNotification") ??
+                          "There are no new notifications",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  );
+                }
+
+                return ListView.separated(
+                  itemCount: notifications.length,
+                  separatorBuilder: (context, index) => Divider(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withAlpha(150),
+                  ),
+                  itemBuilder: (context, index) {
+                    final notification = notifications[index];
+
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.primaryContainer,
+                        child: Icon(
+                          Icons.notifications,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                      title: Text(
+                        notification.title,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                      subtitle: Text(
+                        notification.body,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelMedium!
+                            .copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                            ),
+                      ),
+                      trailing: Text(
+                        notification.formattedTime,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
-      body: ValueListenableBuilder<List<RemoteMessage>>(
-        valueListenable: NotificationController.notificationsNotifier,
-        builder: (context, notifications, child) {
-          if (notifications.isEmpty) {
-            return Center(
-              child: Text(AppLocalizations.of(context)?.translate("noNotification") ?? "There are no new notifications"),
-            );
-          }
+    );
+  }
 
-          return ListView.separated(
-            itemCount: notifications.length,
-            separatorBuilder: (context, index) => const Divider(),
-            itemBuilder: (context, index) {
-              final notification = notifications[index].notification;
-              final data = notifications[index].data;
-
-              return ListTile(
-                leading: const CircleAvatar(
-                  child: Icon(Icons.notifications),
-                ),
-                title: Text(notification?.title ?? 'No Title'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(notification?.body ?? 'No content'),
-                    if (data.isNotEmpty)
-                      Text(
-                        "Extra data: $data",
-                        style: const TextStyle(fontSize: 10, color: Colors.grey),
-                      ),
-                  ],
-                ),
-                trailing: Text(
-                  "${DateTime.now().hour}:${DateTime.now().minute}", // Esempio orario
-                  style: const TextStyle(fontSize: 12),
-                ),
-              );
+  Container _buildAppBar(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 60),
+      height: 110,
+      decoration: WidgetStyles.cardDecoration(context),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {
+              onBack;
             },
-          );
-        },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).colorScheme.primary,
+              size: 22,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)?.translate("notificationTitle") ??
+                  "Your Notifications",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              NotificationController.notificationsNotifier.value = [];
+            },
+            child: Icon(
+              Icons.delete_sweep,
+              color: Theme.of(context).colorScheme.primary,
+              size: 22,
+            ),
+          ),
+        ],
       ),
     );
   }

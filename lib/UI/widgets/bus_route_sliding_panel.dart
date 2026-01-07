@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/widget_decoration/widget_styles.dart';
 import '../../controller/favorites_manager.dart';
-//import '../../controller/info_lines.dart';
 
 class BusRouteSlidingPanel extends StatefulWidget {
   void onBack(BuildContext context) {
@@ -174,22 +173,22 @@ class _BusRouteSlidingPanelState extends State<BusRouteSlidingPanel> {
                             ),
                             (widget.lineDetails["short_name"][0] == 'C')
                                 ? Image.asset(
-                              'assets/icons/logo_circolare_veloce.png',
-                              height: 50,
-                            )
+                                    'assets/icons/logo_circolare_veloce.png',
+                                    height: 50,
+                                  )
                                 : Text(
-                              "LINEA",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displaySmall
-                                  ?.copyWith(fontSize: 65),
-                            ),
+                                    "LINEA",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displaySmall
+                                        ?.copyWith(fontSize: 65),
+                                  ),
                             Text(
                               (widget.lineDetails["short_name"][0] == 'C')
                                   ? widget.lineDetails["short_name"] ?? "LINEA"
                                   : (widget.lineDetails["short_name"])
-                                  .toString()
-                                  .replaceFirst("L", ""),
+                                        .toString()
+                                        .replaceFirst("L", ""),
                               style: Theme.of(
                                 context,
                               ).textTheme.displaySmall?.copyWith(fontSize: 65),
@@ -198,15 +197,15 @@ class _BusRouteSlidingPanelState extends State<BusRouteSlidingPanel> {
                               onTap: _toggleFavorite,
                               child: isFavorite
                                   ? const Icon(
-                                Icons.star,
-                                size: 30,
-                                color: Colors.white,
-                              )
+                                      Icons.star,
+                                      size: 30,
+                                      color: Colors.white,
+                                    )
                                   : const Icon(
-                                Icons.star_border,
-                                size: 30,
-                                color: Colors.white,
-                              ),
+                                      Icons.star_border,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
                             ),
                             // ----------------------------------
                           ],
