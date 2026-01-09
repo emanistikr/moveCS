@@ -28,7 +28,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _emailController.text,
         _passwordController.text,
       );
-      //Verifichiamo che registrazione e login sono andate okay
       String? uid = await controller.getUid();
       if (uid != null) {
         controller.addUserDetails(
@@ -49,87 +48,114 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)?.translate("signUp") ?? "Sign Up",
         ),
-        titleTextStyle: Theme.of(context).textTheme.titleLarge,
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        titleTextStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 60),
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                label: Text(
-                  AppLocalizations.of(context)?.translate("Name") ?? "Name",
-                  style: Theme.of(context).textTheme.bodyLarge,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Icon(Icons.person_add_rounded, size: 80, color: Colors.blueAccent),
+              const SizedBox(height: 20),
+              Text(
+                AppLocalizations.of(context)?.translate("createAccount") ?? "Create Account",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 40),
+
+              // Campo Nome
+              TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)?.translate("Name") ?? "Name",
+                  prefixIcon: const Icon(Icons.person_outline),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  //fillColor: Colors.grey[50],
                 ),
               ),
-            ),
-            TextField(
-              controller: _surnameController,
-              decoration: InputDecoration(
-                label: Text(
-                  AppLocalizations.of(context)?.translate("Surname") ??
-                      "Surname",
-                  style: Theme.of(context).textTheme.bodyLarge,
+              const SizedBox(height: 16),
+
+              // Campo Cognome
+              TextField(
+                controller: _surnameController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)?.translate("Surname") ?? "Surname",
+                  prefixIcon: const Icon(Icons.person_outline),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  //fillColor: Colors.grey[50],
                 ),
               ),
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                label: Text(
-                  'Email',
-                  style: Theme.of(context).textTheme.bodyLarge,
+              const SizedBox(height: 16),
+
+              // Campo Email
+              TextField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  //fillColor: Colors.grey[50],
                 ),
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _passwordController,
-                    obscureText: !_passwordVisible,
-                    decoration: InputDecoration(
-                      label: Text(
-                        'Password',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
+              const SizedBox(height: 16),
+
+              // Campo Password
+              TextField(
+                controller: _passwordController,
+                obscureText: !_passwordVisible,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
+                    icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () => setState(() => _passwordVisible = !_passwordVisible),
                   ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  //fillColor: Colors.grey[50],
                 ),
-                IconButton(
-                  icon: Icon(
-                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                  ),
-                  onPressed: () =>
-                      setState(() => _passwordVisible = !_passwordVisible),
+              ),
+              const SizedBox(height: 40),
+
+              // Bottone Registrazione
+              ElevatedButton(
+                onPressed: createUser,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  elevation: 2,
                 ),
-              ],
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: createUser,
-              child: Text(
-                AppLocalizations.of(context)?.translate("createAccount") ??
-                    "Create Account",
-                style: Theme.of(context).textTheme.bodyLarge,
+                child: Text(
+                  AppLocalizations.of(context)?.translate("createAccount") ?? "Create Account",
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            TextButton(
-              onPressed: () =>
-                  Navigator.pop(context), // Torna indietro al Login
-              child: Text(
-                AppLocalizations.of(context)?.translate("passToLogIn") ??
-                    "Back to Login",
+              const SizedBox(height: 16),
+
+              // Torna al Login
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  AppLocalizations.of(context)?.translate("passToLogIn") ?? "Hai già un account? Accedi",
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
