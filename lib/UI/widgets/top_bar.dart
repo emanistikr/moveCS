@@ -164,9 +164,13 @@ Widget _searchButton(BuildContext context, VoidCallback onTap) => Hero(
               size: 30,
             ),
             const SizedBox(width: 15),
+            Expanded(child:
             Text(
               AppLocalizations.of(context)?.translate("where?") ?? "",
               style: Theme.of(context).textTheme.bodyLarge,
+              overflow:
+              TextOverflow.ellipsis, //Come gestisce overflow
+            ),
             ),
           ],
         ),
