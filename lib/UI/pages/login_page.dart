@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../controller/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../controller/app_localization.dart';
-import 'registration_page.dart'; // Importa la pagina di registrazione
+import 'registration_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,57 +30,85 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        titleTextStyle: Theme.of(context).textTheme.titleLarge,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 60),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                label: Text('Email', style: Theme.of(context).textTheme.bodyLarge),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Icona di benvenuto
+              const Icon(Icons.lock_person_rounded, size: 80, color: Colors.blueAccent),
+              const SizedBox(height: 20),
+              Text(
+                AppLocalizations.of(context)?.translate("WBack") ?? "Welcome Back",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _passwordController,
-                    obscureText: !_passwordVisible,
-                    decoration: InputDecoration(
-                      label: Text('Password', style: Theme.of(context).textTheme.bodyLarge),
-                    ),
+              const SizedBox(height: 40),
+
+              // Campo Email
+              TextField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  //fillColor: Colors.grey[50],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Campo Password
+              TextField(
+                controller: _passwordController,
+                obscureText: !_passwordVisible,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  prefixIcon: const Icon(Icons.password_rounded),
+                  suffixIcon: IconButton(
+                    icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () => setState(() => _passwordVisible = !_passwordVisible),
                   ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  //fillColor: Colors.grey[50],
                 ),
-                IconButton(
-                  icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
-                  onPressed: () => setState(() => _passwordVisible = !_passwordVisible),
-                ),
-              ],
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: signIn,
-              child: Text(
-                AppLocalizations.of(context)?.translate("signIn") ?? "Sign In",
-                style: Theme.of(context).textTheme.bodyLarge,
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                // Navigazione verso la registrazione
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const RegistrationPage()),
-                );
-              },
-              child: Text(AppLocalizations.of(context)?.translate("passToCreateAccount") ?? "Create account"),
-            ),
-          ],
+              const SizedBox(height: 40),
+
+              // Bottone Sign In
+              ElevatedButton(
+                onPressed: signIn,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  elevation: 2,
+                ),
+                child: Text(
+                  AppLocalizations.of(context)?.translate("signIn") ?? "Sign In",
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Bottone Registrazione
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RegistrationPage()),
+                  );
+                },
+                child: Text(
+                  AppLocalizations.of(context)?.translate("passToCreateAccount") ?? "Non hai un account? Registrati",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

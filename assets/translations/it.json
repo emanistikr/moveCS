@@ -42,12 +42,11 @@
   "edit": "Modifica",
   "house": "Casa",
   "work": "Lavoro",
-    "noFavorites": "Ancora nessuna linea preferita!",
-      "save": "SALVA",
+  "noFavorites": "Ancora nessuna linea preferita!",
+  "save": "SALVA",
   "cancel": "ANNULLA",
-    "noAddresses": "Nessun indirizzo impostato",
+  "noAddresses": "Nessun indirizzo impostato",
   "notificationTitle": "Le tue Notifiche",
-  "noNotification": "Non ci sono nuove notifiche"
-
-
+  "noNotification": "Non ci sono nuove notifiche",
+  "WBack": "Bentornato"
 }
