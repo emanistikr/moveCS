@@ -16,13 +16,27 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool _passwordVisible = false;
 
+  String _errorMessage = ""; // variabile per l'errore
+
   Future<void> signIn() async {
+    //Prima verifica che i campi non siano vuoti
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      setState(() => _errorMessage = AppLocalizations.of(context)?.translate("PleaseFillInAllFields") ??
+          "Please fill in all fields");
+      return;
+    }
     try {
+      setState(() => _errorMessage = ""); // Reset errore
       await AuthController().signInWithEmailAndPassword(
         _emailController.text,
         _passwordController.text,
       );
     } on FirebaseAuthException catch (error) {
+      // Gestione degli errori di Firebase Auth
+      setState(() {
+        _errorMessage = AppLocalizations.of(context)?.translate("InvalidCredentials") ??
+            "Invalid credentials or user does not exist";
+      });
       debugPrint(error.toString());
     }
   }
@@ -77,6 +91,18 @@ class _LoginPageState extends State<LoginPage> {
                   //fillColor: Colors.grey[50],
                 ),
               ),
+
+              // Messaggio di errore
+              if (_errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    _errorMessage,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
               const SizedBox(height: 40),
 
               // Bottone Sign In

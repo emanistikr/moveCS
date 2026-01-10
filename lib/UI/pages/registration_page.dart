@@ -17,8 +17,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _surnameController = TextEditingController();
   bool _passwordVisible = false;
 
+  String _errorMessage = ""; // variabile per l'errore
+
   Future<void> createUser() async {
+    // controlliamo che nessun campo sia vuoto
+    if (_nameController.text.isEmpty ||
+        _surnameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
+      setState(() => _errorMessage = AppLocalizations.of(context)?.translate("AllFieldsRequired") ??
+          "All fields are required");
+      return;
+    }
+
+    // Controllo lunghezza minima password
+    if (_passwordController.text.length < 6) {
+      setState(() => _errorMessage = AppLocalizations.of(context)?.translate("PasswordLength") ??
+          "Password must be at least 6 characters long" );
+      return;
+    }
     try {
+      setState(() => _errorMessage = ""); // Reset errore
       AuthController controller = AuthController();
       await controller.createUserWithEmailAndPassword(
         _emailController.text,
@@ -42,6 +61,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
       }
     } on FirebaseAuthException catch (error) {
       debugPrint(error.toString());
+      setState(() {
+        _errorMessage = AppLocalizations.of(context)?.translate("ErrorRegistering") ??
+        "Error while registering. Please try again.";
+      });
     }
   }
 
@@ -129,6 +152,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //fillColor: Colors.grey[50],
                 ),
               ),
+
+              // Messaggio di errore
+              if (_errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    _errorMessage,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
               const SizedBox(height: 40),
 
               // Bottone Registrazione

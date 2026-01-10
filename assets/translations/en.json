@@ -48,5 +48,10 @@
   "noAddresses": "No address set",
   "notificationTitle": "Your Notifications",
   "noNotification": "There are no new notifications",
-  "WBack": "Welcome Back"
+  "WBack": "Welcome Back",
+  "PleaseFillInAllFields" : "Please fill in all fields",
+  "InvalidCredentials": "Invalid credentials or user does not exist",
+  "AllFieldsRequired": "All fields are required",
+  "PasswordLength": "Password must be at least 6 characters long",
+  "ErrorRegistering": "Error while registering. Please try again."
 }

@@ -48,5 +48,9 @@
   "noAddresses": "Nessun indirizzo impostato",
   "notificationTitle": "Le tue Notifiche",
   "noNotification": "Non ci sono nuove notifiche",
-  "WBack": "Bentornato"
+  "WBack": "Bentornato",
+  "PleaseFillInAllFields" : "Per favore, compila tutti i campi",
+  "InvalidCredentials": "Credenziali non valide o utente inesistente",
+  "AllFieldsRequired": "Tutti i campi sono obbligatori",
+  "ErrorRegistering" : "Errore durante la registrazione. Per favore riprova."
 }
