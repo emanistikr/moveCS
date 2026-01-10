@@ -5,8 +5,6 @@ import '../../controller/auth_controller.dart';
 
 class ProfiloPage extends StatefulWidget {
   final VoidCallback? onBack;
-
-  // Aggiungi questi parametri per gestire lo stato attuale e i cambiamenti
   final bool isDarkMode;
   final Locale currentLocale;
   final ValueChanged<bool>? onThemeChanged;
@@ -15,7 +13,6 @@ class ProfiloPage extends StatefulWidget {
   const ProfiloPage({
     super.key,
     this.onBack,
-    // Valori di default o passati dal padre
     this.isDarkMode = false,
     this.currentLocale = const Locale('it'),
     this.onThemeChanged,
@@ -29,11 +26,8 @@ class ProfiloPage extends StatefulWidget {
 class _ProfiloPageState extends State<ProfiloPage> {
   AuthController controller = AuthController();
   String nomeUtente = "Utente";
-  String urlImmagine =
-      //Imagine con foto soggetto
-      //'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80';
-      //Icona generica utente
-      'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
+  String _errorMessage = "";
+  String urlImmagine = 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
 
   late bool _isDark;
   late Locale _locale;
@@ -44,6 +38,19 @@ class _ProfiloPageState extends State<ProfiloPage> {
     _isDark = widget.isDarkMode;
     _locale = widget.currentLocale;
     recuperaDati();
+  }
+
+
+  Future<void> _handleDeleteAccount() async {
+    try {
+      setState(() => _errorMessage = ""); // Reset errore
+      await controller.deleteAccount();
+    } catch (e) {
+      setState(() {
+        _errorMessage = AppLocalizations.of(context)?.translate("error_delete") ??
+            "Unable to delete your account. Please log in again and try again.";
+      });
+    }
   }
 
   @override
@@ -103,8 +110,8 @@ class _ProfiloPageState extends State<ProfiloPage> {
                       Expanded(
                         child: Text(
                           AppLocalizations.of(
-                                context,
-                              )?.translate('profilo_text') ??
+                            context,
+                          )?.translate('profilo_text') ??
                               "My profile",
                           textAlign: TextAlign.center,
                           style: textTheme.bodyMedium!.copyWith(
@@ -257,7 +264,7 @@ class _ProfiloPageState extends State<ProfiloPage> {
 
                   // Pulsante elimina account
                   InkWell(
-                    onTap: controller.deleteAccount,
+                    onTap: _handleDeleteAccount,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -271,11 +278,11 @@ class _ProfiloPageState extends State<ProfiloPage> {
                         Expanded(
                           child: Text(
                             AppLocalizations.of(
-                                  context,
-                                )?.translate('deleteAccount') ??
+                              context,
+                            )?.translate('deleteAccount') ??
                                 'Delete Account',
                             overflow:
-                                TextOverflow.ellipsis, //Come gestisce overflow
+                            TextOverflow.ellipsis, //Come gestisce overflow
                             style: TextStyle(
                               color: colorScheme.error,
                               fontSize: 14,
@@ -283,14 +290,29 @@ class _ProfiloPageState extends State<ProfiloPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 5),
                         Icon(Icons.delete, color: colorScheme.error, size: 14),
                       ],
                     ),
                   ),
+                  const SizedBox(height: 20),
+                  //Visualizza messaggio di errore se presente
+                  if (_errorMessage.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: Text(
+                        _errorMessage,
+                        style: TextStyle(
+                          color: colorScheme.error,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                 ],
               ),
             ),
+
           ],
         ),
       ),

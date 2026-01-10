@@ -39,7 +39,6 @@ class AuthController {
   }
 
   Future<void> deleteAccount() async {
-    try {
       String? uid = await this.getUid();
 
       if (uid != null) {
@@ -48,9 +47,6 @@ class AuthController {
         await FirebaseFirestore.instance.collection('users').doc(uid).delete();
         print("Account eliminato con successo");
       }
-    } on FirebaseAuthException catch (e) {
-      print("Errore durante l'eliminazione: $e");
-    }
   }
 
 } //authController
