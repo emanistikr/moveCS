@@ -52,5 +52,6 @@
   "PleaseFillInAllFields" : "Per favore, compila tutti i campi",
   "InvalidCredentials": "Credenziali non valide o utente inesistente",
   "AllFieldsRequired": "Tutti i campi sono obbligatori",
-  "ErrorRegistering" : "Errore durante la registrazione. Per favore riprova."
+  "ErrorRegistering" : "Errore durante la registrazione. Per favore riprova.",
+  "error_delete" : "Impossibile eliminare l'account. Rieffettuare l'accesso e riprovare."
 }
