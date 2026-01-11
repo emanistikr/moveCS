@@ -27,7 +27,8 @@ class _ProfiloPageState extends State<ProfiloPage> {
   AuthController controller = AuthController();
   String nomeUtente = "Utente";
   String _errorMessage = "";
-  String urlImmagine = 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
+  String urlImmagine =
+      'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
 
   late bool _isDark;
   late Locale _locale;
@@ -40,14 +41,14 @@ class _ProfiloPageState extends State<ProfiloPage> {
     recuperaDati();
   }
 
-
   Future<void> _handleDeleteAccount() async {
     try {
       setState(() => _errorMessage = ""); // Reset errore
       await controller.deleteAccount();
     } catch (e) {
       setState(() {
-        _errorMessage = AppLocalizations.of(context)?.translate("error_delete") ??
+        _errorMessage =
+            AppLocalizations.of(context)?.translate("error_delete") ??
             "Unable to delete your account. Please log in again and try again.";
       });
     }
@@ -110,8 +111,8 @@ class _ProfiloPageState extends State<ProfiloPage> {
                       Expanded(
                         child: Text(
                           AppLocalizations.of(
-                            context,
-                          )?.translate('profilo_text') ??
+                                context,
+                              )?.translate('profilo_text') ??
                               "My profile",
                           textAlign: TextAlign.center,
                           style: textTheme.bodyMedium!.copyWith(
@@ -265,33 +266,53 @@ class _ProfiloPageState extends State<ProfiloPage> {
                   // Pulsante elimina account
                   InkWell(
                     onTap: _handleDeleteAccount,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${AppLocalizations.of(context)?.translate('wantToDelete') ?? 'Wanna break my heart 💔?'} ",
-                          style: TextStyle(
-                            color: colorScheme.error,
-                            fontSize: 14,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            AppLocalizations.of(
-                              context,
-                            )?.translate('deleteAccount') ??
-                                'Delete Account',
-                            overflow:
-                            TextOverflow.ellipsis, //Come gestisce overflow
-                            style: TextStyle(
-                              color: colorScheme.error,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 8.0,
+                      ),
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text:
+                                  "${AppLocalizations.of(context)?.translate('wantToDelete') ?? 'Wanna break my heart 💔?'} ",
+                              style: TextStyle(
+                                color: colorScheme.error,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
+                            TextSpan(
+                              text:
+                                  AppLocalizations.of(
+                                    context,
+                                  )?.translate('deleteAccount') ??
+                                  'Delete Account',
+                              style: TextStyle(
+                                color: colorScheme.error,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 4.0,
+                                  top: 8,
+                                ),
+                                child: Icon(
+                                  Icons.delete,
+                                  color: colorScheme.error,
+                                  size: 16,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        Icon(Icons.delete, color: colorScheme.error, size: 14),
-                      ],
+                        textAlign: TextAlign
+                            .center, // Centra tutto, anche se va a capo
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -312,7 +333,6 @@ class _ProfiloPageState extends State<ProfiloPage> {
                 ],
               ),
             ),
-
           ],
         ),
       ),

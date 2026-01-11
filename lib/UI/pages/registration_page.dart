@@ -25,15 +25,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _surnameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _passwordController.text.isEmpty) {
-      setState(() => _errorMessage = AppLocalizations.of(context)?.translate("AllFieldsRequired") ??
-          "All fields are required");
+      setState(
+        () => _errorMessage =
+            AppLocalizations.of(context)?.translate("AllFieldsRequired") ??
+            "All fields are required",
+      );
       return;
     }
 
     // Controllo lunghezza minima password
     if (_passwordController.text.length < 6) {
-      setState(() => _errorMessage = AppLocalizations.of(context)?.translate("PasswordLength") ??
-          "Password must be at least 6 characters long" );
+      setState(
+        () => _errorMessage =
+            AppLocalizations.of(context)?.translate("PasswordLength") ??
+            "Password must be at least 6 characters long",
+      );
       return;
     }
     try {
@@ -62,8 +68,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
     } on FirebaseAuthException catch (error) {
       debugPrint(error.toString());
       setState(() {
-        _errorMessage = AppLocalizations.of(context)?.translate("ErrorRegistering") ??
-        "Error while registering. Please try again.";
+        _errorMessage =
+            AppLocalizations.of(context)?.translate("ErrorRegistering") ??
+            "Error while registering. Please try again.";
       });
     }
   }
@@ -78,7 +85,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
-        titleTextStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+        titleTextStyle: Theme.of(
+          context,
+        ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -87,12 +96,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(Icons.person_add_rounded, size: 80, color: Colors.blueAccent),
+              Icon(
+                Icons.person_add_rounded,
+                size: 80,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               const SizedBox(height: 20),
               Text(
-                AppLocalizations.of(context)?.translate("createAccount") ?? "Create Account",
+                AppLocalizations.of(context)?.translate("createAccount") ??
+                    "Create Account",
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 40),
 
@@ -100,9 +116,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
               TextField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)?.translate("Name") ?? "Name",
+                  labelText:
+                      AppLocalizations.of(context)?.translate("Name") ?? "Name",
                   prefixIcon: const Icon(Icons.person_outline),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   filled: true,
                   //fillColor: Colors.grey[50],
                 ),
@@ -113,9 +132,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
               TextField(
                 controller: _surnameController,
                 decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)?.translate("Surname") ?? "Surname",
+                  labelText:
+                      AppLocalizations.of(context)?.translate("Surname") ??
+                      "Surname",
                   prefixIcon: const Icon(Icons.person_outline),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   filled: true,
                   //fillColor: Colors.grey[50],
                 ),
@@ -129,7 +152,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   prefixIcon: const Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   filled: true,
                   //fillColor: Colors.grey[50],
                 ),
@@ -144,10 +169,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   labelText: 'Password',
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () => setState(() => _passwordVisible = !_passwordVisible),
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () =>
+                        setState(() => _passwordVisible = !_passwordVisible),
                   ),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   filled: true,
                   //fillColor: Colors.grey[50],
                 ),
@@ -159,7 +191,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     _errorMessage,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -171,12 +206,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 onPressed: createUser,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   elevation: 2,
                 ),
                 child: Text(
-                  AppLocalizations.of(context)?.translate("createAccount") ?? "Create Account",
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  AppLocalizations.of(context)?.translate("createAccount") ??
+                      "Create Account",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -185,7 +226,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text(
-                  AppLocalizations.of(context)?.translate("passToLogIn") ?? "Hai già un account? Accedi",
+                  AppLocalizations.of(context)?.translate("passToLogIn") ??
+                      "Hai già un account? Accedi",
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),

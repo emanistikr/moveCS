@@ -21,8 +21,11 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> signIn() async {
     //Prima verifica che i campi non siano vuoti
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      setState(() => _errorMessage = AppLocalizations.of(context)?.translate("PleaseFillInAllFields") ??
-          "Please fill in all fields");
+      setState(
+        () => _errorMessage =
+            AppLocalizations.of(context)?.translate("PleaseFillInAllFields") ??
+            "Please fill in all fields",
+      );
       return;
     }
     try {
@@ -34,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
     } on FirebaseAuthException catch (error) {
       // Gestione degli errori di Firebase Auth
       setState(() {
-        _errorMessage = AppLocalizations.of(context)?.translate("InvalidCredentials") ??
+        _errorMessage =
+            AppLocalizations.of(context)?.translate("InvalidCredentials") ??
             "Invalid credentials or user does not exist";
       });
       debugPrint(error.toString());
@@ -52,12 +56,19 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Icona di benvenuto
-              const Icon(Icons.lock_person_rounded, size: 80, color: Colors.blueAccent),
+              Icon(
+                Icons.lock_person_rounded,
+                size: 80,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               const SizedBox(height: 20),
               Text(
-                AppLocalizations.of(context)?.translate("WBack") ?? "Welcome Back",
+                AppLocalizations.of(context)?.translate("WBack") ??
+                    "Welcome Back",
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 40),
 
@@ -68,7 +79,9 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   prefixIcon: const Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   filled: true,
                   //fillColor: Colors.grey[50],
                 ),
@@ -83,10 +96,17 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: 'Password',
                   prefixIcon: const Icon(Icons.password_rounded),
                   suffixIcon: IconButton(
-                    icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () => setState(() => _passwordVisible = !_passwordVisible),
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () =>
+                        setState(() => _passwordVisible = !_passwordVisible),
                   ),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   filled: true,
                   //fillColor: Colors.grey[50],
                 ),
@@ -98,7 +118,10 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     _errorMessage,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -110,12 +133,18 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: signIn,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   elevation: 2,
                 ),
                 child: Text(
-                  AppLocalizations.of(context)?.translate("signIn") ?? "Sign In",
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  AppLocalizations.of(context)?.translate("signIn") ??
+                      "Sign In",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -125,11 +154,16 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const RegistrationPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const RegistrationPage(),
+                    ),
                   );
                 },
                 child: Text(
-                  AppLocalizations.of(context)?.translate("passToCreateAccount") ?? "Non hai un account? Registrati",
+                  AppLocalizations.of(
+                        context,
+                      )?.translate("passToCreateAccount") ??
+                      "Non hai un account? Registrati",
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
