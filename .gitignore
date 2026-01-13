@@ -45,4 +45,4 @@ app.*.map.json
 /android/app/release
 
 #ignora file secret
-lib/secret.dart
+#lib/secret.dart
