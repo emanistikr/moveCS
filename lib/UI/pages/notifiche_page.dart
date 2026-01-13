@@ -65,7 +65,7 @@ class NotifichePage extends StatelessWidget {
                       ),
                       subtitle: Text(
                         notification.body,
-                        maxLines: 2,
+                        maxLines: 10,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.labelMedium!
                             .copyWith(
