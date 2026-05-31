@@ -45,9 +45,14 @@ MoveCS nasce con l’obiettivo di rendere più accessibile e immediata la consul
 
 <img  alt="register" src="https://github.com/user-attachments/assets/1a1f9886-2f44-4ce9-bd80-be6c9fb91aca" width="32%" />
 
+<img  alt="errore_login" src="https://github.com/user-attachments/assets/dfa1cd22-965d-42d4-9cfe-39987666087c" width="32%" />
+
 <img  alt="profilo" src="https://github.com/user-attachments/assets/ff29987b-f1a5-474e-99eb-42cdc64b60c9" width="32%" />
 
 <img  alt="search_page" src="https://github.com/user-attachments/assets/07ec5f01-3ac6-4e78-95a8-54b5c4108e3a" width="32%" />
+
+<img  alt="wallet_page" src="https://github.com/user-attachments/assets/e0d0af0d-ac15-4353-8119-f0d2fe3a2ec0" width="32%" />
+
 
 
 
